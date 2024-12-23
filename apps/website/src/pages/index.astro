@@ -1,0 +1,18 @@
+---
+import Welcome from "../components/Welcome.astro";
+import Layout from "../layouts/Layout.astro";
+import logo from "../assets/logo-rounded.svg";
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<Layout>
+  <header class="p-8">
+    <div class="flex gap-2 items-center">
+      <img class="w-6 h-6" src={logo.src} alt="bridge logo rounded" />
+      <h1 class="text-xl font-bold text-teal-600">usebridge</h1>
+    </div>
+  </header>
+  <Welcome />
+</Layout>
