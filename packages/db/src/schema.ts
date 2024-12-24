@@ -1,5 +1,5 @@
 import {
-  pgTable,
+  pgTableCreator,
   text,
   timestamp,
   boolean,
@@ -11,21 +11,37 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
+// We handle the tables with a prefix to enable us to potentially have multiple
+// databases on the one connection. Cost saving for the time being, can be migrated
+// accordingly at a later date
+const pgTable = pgTableCreator((name: string) => `bridge_${name}`);
+
+const timestampHelper = () => ({
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// TODO: Investigate whether we actually need some of the contents of this users table if we
+// use a separate auth management system (thinking new SST setup)
+
 // User Management
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
   email: text("email").unique().notNull(),
+  // FIX: This is probably one of the items to remove. Ideally we don't deal with auth
   passwordHash: text("password_hash").notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   phoneNumber: text("phone_number"),
   role: text("role")
     .default("user")
+    // TODO: Investigate the correct roles that we want for the system and consider permissions at a later date
     .$type<"admin" | "agent" | "user">()
     .notNull(),
   isVerified: boolean("is_verified").default(false),
   lastLogin: timestamp("last_login"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+
+  ...timestampHelper(),
 });
 
 // Agent Profile Extension
@@ -34,9 +50,14 @@ export const agentProfiles = pgTable("agent_profiles", {
     .references(() => users.id)
     .primaryKey(),
   companyName: text("company_name"),
+  // TODO: Claude came up with this. I doubt a license number is needed
   licenseNumber: text("license_number"),
+  // TODO: Similar to above, may not be required. We'd probably want an agent company with a description
+  // that matches accordingly
   specializations: text("specializations").array(),
   profileImageUrl: text("profile_image_url"),
+
+  ...timestampHelper(),
 });
 
 // Property Listing
@@ -67,6 +88,7 @@ export const properties = pgTable("properties", {
 
   // Property Features
   features: jsonb("features").$type<string[]>(),
+  // TODO: This should be an enum right?
   energyEfficiencyRating: integer("energy_efficiency_rating"),
 
   // Status and Listing Details
@@ -75,8 +97,7 @@ export const properties = pgTable("properties", {
     .default("draft"),
   dateAvailable: date("date_available"),
 
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  ...timestampHelper(),
 });
 
 // Property Images
@@ -88,8 +109,11 @@ export const propertyImages = pgTable("property_images", {
   imageUrl: text("image_url").notNull(),
   isPrimaryImage: boolean("is_primary_image").default(false),
   uploadedAt: timestamp("uploaded_at").defaultNow().notNull(),
+
+  ...timestampHelper(),
 });
 
+// TODO: This need to account for times and not just prefferred dates and time slots being generic
 // Viewing Bookings
 export const viewings = pgTable("viewings", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -108,8 +132,7 @@ export const viewings = pgTable("viewings", {
     .default("pending"),
   notes: text("notes"),
 
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  ...timestampHelper(),
 });
 
 // Relation Definitions
