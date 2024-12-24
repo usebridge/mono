@@ -1,0 +1,17 @@
+{
+  "name": "@bridge/zero",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "format": "biome format --write .",
+    "lint": "biome lint",
+    "typecheck": "biome typecheck"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.4"
+  }
+}

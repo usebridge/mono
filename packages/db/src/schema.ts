@@ -1,6 +1,5 @@
 import {
   pgTable,
-  serial,
   text,
   timestamp,
   boolean,
@@ -8,8 +7,6 @@ import {
   jsonb,
   uuid,
   integer,
-  primaryKey,
-  unique,
   date,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";

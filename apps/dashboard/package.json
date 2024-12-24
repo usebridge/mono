@@ -1,15 +1,25 @@
 {
-	"name": "dashboard",
-	"type": "module",
-	"scripts": {
-		"dev": "vinxi dev",
-		"build": "vinxi build",
-		"start": "vinxi start"
-	},
-	"devDependencies": {
-		"@types/bun": "latest"
-	},
-	"peerDependencies": {
-		"typescript": "^5.0.0"
-	}
+  "name": "dashboard",
+  "type": "module",
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "^1.85.0",
+    "@tanstack/start": "^1.85.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vinxi": "^0.4.3"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
 }
