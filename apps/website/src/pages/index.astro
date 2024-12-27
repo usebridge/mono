@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import logo from "../assets/logo-rounded.svg";
+import whiteLogo from "../assets/logo-light.svg";
 ---
 
 <script>
@@ -21,7 +21,7 @@ import logo from "../assets/logo-rounded.svg";
 <Layout>
   <header class="relative px-4 py-2 m-8">
     <div class="flex gap-2 items-center w-fit">
-      <img class="w-6 h-6 mx-auto" src={logo.src} alt="logo" />
+      <img class="w-6 h-6 mx-auto" src={whiteLogo.src} alt="logo" />
       <h1 class="text-lg font-mono text-teal-300">
         use<span class="ml-[2px] text-white">bridge</span>
       </h1>
@@ -42,7 +42,9 @@ import logo from "../assets/logo-rounded.svg";
         Give clients instant booking power and free your team from scheduling calls.
       </p>
       <div class="w-2/3 h-1 bg-white/30 backdrop-blur-sm rounded-full mt-2" />
-      <button class="mt-32 bg-white text-teal-900 rounded-lg px-4 py-2">Get in touch with us</button>
+      <div class="mt-32">
+        <a href="mailto:contact@usebridge.co.uk" class="bg-white text-teal-900 rounded-lg px-4 py-2">Get in touch with us</a>
+        </div>
     </section>
   </main>
   <footer class="absolute bottom-0 w-full h-fit px-4 py-2 m-8">
