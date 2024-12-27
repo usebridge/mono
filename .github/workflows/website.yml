@@ -45,6 +45,7 @@ jobs:
             echo "lockfile=bun.lockb" >> $GITHUB_OUTPUT
       - name: Setup Node
         uses: actions/setup-node@v4
+        uses: oven-sh/setup-bun@v2
         with:
           node-version: "20"
       - name: Setup Pages
@@ -61,6 +62,7 @@ jobs:
         working-directory: ${{ env.BUILD_PATH }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        uses: oven-sh/setup-bun@v2
         with:
           path: ${{ env.BUILD_PATH }}/dist
 
