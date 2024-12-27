@@ -36,18 +36,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Detect package manager
-        id: detect-package-manager
+      - name: Setup package manager
+        id: setup-package-manager
         run: |
             echo "manager=bun" >> $GITHUB_OUTPUT
             echo "command=install" >> $GITHUB_OUTPUT
             echo "runner=bun" >> $GITHUB_OUTPUT
             echo "lockfile=bun.lockb" >> $GITHUB_OUTPUT
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Bun
         uses: oven-sh/setup-bun@v2
-        with:
-          node-version: "20"
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
@@ -62,7 +59,6 @@ jobs:
         working-directory: ${{ env.BUILD_PATH }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        uses: oven-sh/setup-bun@v2
         with:
           path: ${{ env.BUILD_PATH }}/dist
 
