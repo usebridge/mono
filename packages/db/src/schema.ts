@@ -113,6 +113,28 @@ export const propertyImages = pgTable("property_images", {
   ...timestampHelper(),
 });
 
+// Property documents
+export const propertyDocuments = pgTable("property_documents", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  propertyId: uuid("property_id")
+    .references(() => properties.id)
+    .notNull(),
+  documentType: text("document_type")
+    .$type<
+      | "contract"
+      | "lease"
+      | "rent_agreement"
+      | "other"
+      | "maintenance"
+      | "inspection"
+      | "purchase_order"
+    >()
+    .notNull(),
+  documentUrl: text("document_url").notNull(),
+
+  ...timestampHelper(),
+});
+
 // TODO: This need to account for times and not just prefferred dates and time slots being generic
 // Viewing Bookings
 export const viewings = pgTable("viewings", {
@@ -146,10 +168,14 @@ export const userRelations = relations(users, ({ one, many }) => ({
 }));
 
 export const propertyRelations = relations(properties, ({ one, many }) => ({
+  // Property information
+  images: many(propertyImages),
+  documents: many(propertyDocuments),
+
+  // Relating booking / viewing / agent info
   agent: one(users, {
     fields: [properties.agentId],
     references: [users.id],
   }),
-  images: many(propertyImages),
   viewings: many(viewings),
 }));

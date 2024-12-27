@@ -9,9 +9,9 @@
 </g>
 <defs>
 <linearGradient id="paint0_linear_1_3" x1="-1.32322e-05" y1="887" x2="811.894" y2="-65.8478" gradientUnits="userSpaceOnUse">
-<stop offset="0.0397885" stop-color="#1D1D1D"/>
-<stop offset="0.49957" stop-color="#1D1D1D"/>
-<stop offset="0.909524" stop-color="#1D1D1D"/>
+<stop offset="0.0397885" stop-color="white"/>
+<stop offset="0.49957" stop-color="white"/>
+<stop offset="0.909524" stop-color="white"/>
 </linearGradient>
 <linearGradient id="paint1_linear_1_3" x1="331.5" y1="223" x2="332" y2="760.5" gradientUnits="userSpaceOnUse">
 <stop offset="0.244792" stop-color="#10A6A6"/>
