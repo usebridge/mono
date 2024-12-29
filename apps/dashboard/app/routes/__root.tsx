@@ -21,7 +21,11 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "HO Solutions",
+        title: "Bridge",
+      },
+      {
+        name: "description",
+        content: "Bridge the gap to automated viewings.",
       },
     ],
     links: [
@@ -51,7 +55,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <body className="font-inter">
         <SidebarProvider>
           <AppSidebar />
-          <SidebarInset>{children}</SidebarInset>
+          <SidebarInset className="p-4">{children}</SidebarInset>
         </SidebarProvider>
         <ScrollRestoration />
         <Scripts />

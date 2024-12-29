@@ -16,10 +16,11 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   LogoLight,
+  SidebarSeparator,
 } from "@ho/ui";
 import { NavMain } from "./nav-main";
 import { NavSecondary } from "./nav-secondary";
-// import { NavUser } from "./nav-user";
+import { NavUser } from "./nav-user";
 
 const data = {
   navMain: [
@@ -93,16 +94,26 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <h1 className="text-teal-700 text-lg font-semibold m-0 leading-6">
                 Bridge
               </h1>
-              <span className="text-xs text-gray-400">Enterprise Platform</span>
+              <span className="text-xs text-gray-700">Enterprise Platform</span>
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+      <SidebarSeparator className="my-4" />
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>footer</SidebarFooter>
+      <SidebarSeparator className="my-4" />
+      <SidebarFooter>
+        <NavUser
+          user={{
+            name: "Ryan Harman",
+            email: "ryan@usebridge.com",
+            avatar: "https://avatars.githubusercontent.com/u/60135756?v=4",
+          }}
+        />
+      </SidebarFooter>
     </Sidebar>
   );
 }

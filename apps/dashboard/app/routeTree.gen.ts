@@ -11,13 +11,55 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as DashboardImport } from './routes/dashboard'
 import { Route as IndexImport } from './routes/index'
+import { Route as SettingsIndexImport } from './routes/settings/index'
+import { Route as PropertiesIndexImport } from './routes/properties/index'
+import { Route as BookingsIndexImport } from './routes/bookings/index'
+import { Route as PropertiesPropertyIdIndexImport } from './routes/properties/$propertyId/index'
+import { Route as PropertiesPropertyIdEditImport } from './routes/properties/$propertyId/edit'
 
 // Create/Update Routes
+
+const DashboardRoute = DashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SettingsIndexRoute = SettingsIndexImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PropertiesIndexRoute = PropertiesIndexImport.update({
+  id: '/properties/',
+  path: '/properties/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BookingsIndexRoute = BookingsIndexImport.update({
+  id: '/bookings/',
+  path: '/bookings/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PropertiesPropertyIdIndexRoute = PropertiesPropertyIdIndexImport.update({
+  id: '/properties/$propertyId/',
+  path: '/properties/$propertyId/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PropertiesPropertyIdEditRoute = PropertiesPropertyIdEditImport.update({
+  id: '/properties/$propertyId/edit',
+  path: '/properties/$propertyId/edit',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -32,6 +74,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardImport
+      parentRoute: typeof rootRoute
+    }
+    '/bookings/': {
+      id: '/bookings/'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof BookingsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/properties/': {
+      id: '/properties/'
+      path: '/properties'
+      fullPath: '/properties'
+      preLoaderRoute: typeof PropertiesIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/properties/$propertyId/edit': {
+      id: '/properties/$propertyId/edit'
+      path: '/properties/$propertyId/edit'
+      fullPath: '/properties/$propertyId/edit'
+      preLoaderRoute: typeof PropertiesPropertyIdEditImport
+      parentRoute: typeof rootRoute
+    }
+    '/properties/$propertyId/': {
+      id: '/properties/$propertyId/'
+      path: '/properties/$propertyId'
+      fullPath: '/properties/$propertyId'
+      preLoaderRoute: typeof PropertiesPropertyIdIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -39,32 +123,84 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/bookings': typeof BookingsIndexRoute
+  '/properties': typeof PropertiesIndexRoute
+  '/settings': typeof SettingsIndexRoute
+  '/properties/$propertyId/edit': typeof PropertiesPropertyIdEditRoute
+  '/properties/$propertyId': typeof PropertiesPropertyIdIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/bookings': typeof BookingsIndexRoute
+  '/properties': typeof PropertiesIndexRoute
+  '/settings': typeof SettingsIndexRoute
+  '/properties/$propertyId/edit': typeof PropertiesPropertyIdEditRoute
+  '/properties/$propertyId': typeof PropertiesPropertyIdIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/bookings/': typeof BookingsIndexRoute
+  '/properties/': typeof PropertiesIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/properties/$propertyId/edit': typeof PropertiesPropertyIdEditRoute
+  '/properties/$propertyId/': typeof PropertiesPropertyIdIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/bookings'
+    | '/properties'
+    | '/settings'
+    | '/properties/$propertyId/edit'
+    | '/properties/$propertyId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/bookings'
+    | '/properties'
+    | '/settings'
+    | '/properties/$propertyId/edit'
+    | '/properties/$propertyId'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/bookings/'
+    | '/properties/'
+    | '/settings/'
+    | '/properties/$propertyId/edit'
+    | '/properties/$propertyId/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  BookingsIndexRoute: typeof BookingsIndexRoute
+  PropertiesIndexRoute: typeof PropertiesIndexRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
+  PropertiesPropertyIdEditRoute: typeof PropertiesPropertyIdEditRoute
+  PropertiesPropertyIdIndexRoute: typeof PropertiesPropertyIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  BookingsIndexRoute: BookingsIndexRoute,
+  PropertiesIndexRoute: PropertiesIndexRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
+  PropertiesPropertyIdEditRoute: PropertiesPropertyIdEditRoute,
+  PropertiesPropertyIdIndexRoute: PropertiesPropertyIdIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +213,35 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/dashboard",
+        "/bookings/",
+        "/properties/",
+        "/settings/",
+        "/properties/$propertyId/edit",
+        "/properties/$propertyId/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/dashboard": {
+      "filePath": "dashboard.tsx"
+    },
+    "/bookings/": {
+      "filePath": "bookings/index.tsx"
+    },
+    "/properties/": {
+      "filePath": "properties/index.tsx"
+    },
+    "/settings/": {
+      "filePath": "settings/index.tsx"
+    },
+    "/properties/$propertyId/edit": {
+      "filePath": "properties/$propertyId/edit.tsx"
+    },
+    "/properties/$propertyId/": {
+      "filePath": "properties/$propertyId/index.tsx"
     }
   }
 }
