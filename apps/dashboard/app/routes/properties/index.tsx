@@ -1,17 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "../../../components/data-table/data-table";
 import { useMemo, useState } from "react";
 import {
   AlignJustify,
-  AudioLines,
   Check,
   Download,
   EllipsisVertical,
-  LocateIcon,
   Minus,
-  MoveHorizontal,
-  Pencil,
+  MoveDiagonal2,
+  X,
 } from "lucide-react";
 import {
   Badge,
@@ -38,6 +35,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@ho/ui";
+import { DataTable } from "../../../components/data-table/data-table";
 import { useWindowEvent } from "../../../hooks/use-window-event";
 
 export const Route = createFileRoute("/properties/")({
@@ -164,6 +162,11 @@ function RouteComponent() {
     [],
   );
 
+  // TODO: This would be nice to hold in local storage, we should create
+  // a Zustand store or equivalent stateful managing hook to handle small
+  // pieces that we want to persist. A store might be more hassle than worth
+  // with the type sig requirements so a custom hook that infers could be really
+  // nice depending on implementation.
   const [visibleColumns, setVisibleColumns] = useState({
     dateAvailable: true,
     propertyDetails: true,
@@ -189,7 +192,6 @@ function RouteComponent() {
             <BreadcrumbLink href="/">Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
-
           <BreadcrumbItem>
             <BreadcrumbPage>Properties</BreadcrumbPage>
           </BreadcrumbItem>
@@ -239,11 +241,13 @@ function RouteComponent() {
                     })}
                   </DropdownMenuContent>
                 </DropdownMenu>
+
                 <Button variant="outline">
                   <Download />
                 </Button>
               </div>
             </div>
+
             <DataTable
               data={DUPLICATED_MOCK_DATA}
               columns={columns}
@@ -257,25 +261,34 @@ function RouteComponent() {
               }}
             />
           </TabsContent>
+
           <TabsContent value="cards">card content m8</TabsContent>
         </Tabs>
 
         <SheetContent
           showCloseBtn={false}
           onOverlayClick={() => setIsSheetOpen(false)}
-          // onCloseClick={() => setIsSheetOpen(false)}
         >
           <div className="flex gap-2 justify-between items-center mb-4">
             <h4 className="text-lg">Property details</h4>
+
             <div className="flex gap-2 items-center">
               <Button variant="ghost" size="icon">
-                <Pencil />
+                <MoveDiagonal2 />
               </Button>
               <Button variant="ghost" size="icon">
                 <EllipsisVertical />
               </Button>
+              <Button
+                onClick={() => setIsSheetOpen(false)}
+                variant="ghost"
+                size="icon"
+              >
+                <X />
+              </Button>
             </div>
           </div>
+
           <div className="flex gap-2 items-center">
             <img
               src="https://images.unsplash.com/photo-1464146072230-91cabc968266?q=80&w=2880&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -292,7 +305,9 @@ function RouteComponent() {
               </SheetDescription>
             </SheetHeader>
           </div>
-          <Separator className="my-4" />
+
+          <Separator className="my-6" />
+
           <div>
             <p className="text-sm text-muted-foreground">
               Bedrooms:{" "}
