@@ -86,6 +86,10 @@ function RouteComponent() {
     console.log("add property");
   }
 
+  function handleExport() {
+    console.log("export");
+  }
+
   const columns: ColumnDef<(typeof MOCK_PROPERTIES)[number]>[] = useMemo(
     () => [
       {
@@ -94,7 +98,7 @@ function RouteComponent() {
         // TODO: Date-fns to format this
       },
       {
-        id: "property-details",
+        id: "propertyDetails",
         header: "Property details",
         cell: ({ row }) => {
           const rowValues = row.original;
@@ -160,6 +164,23 @@ function RouteComponent() {
     [],
   );
 
+  const [visibleColumns, setVisibleColumns] = useState({
+    dateAvailable: true,
+    propertyDetails: true,
+    status: true,
+    price: true,
+  });
+
+  function handleColumnSelection(column: string) {
+    setVisibleColumns((prevColumns) => {
+      return {
+        ...prevColumns,
+        // @ts-expect-error - needs fixing at some point
+        [column]: !prevColumns[column],
+      };
+    });
+  }
+
   return (
     <>
       <Breadcrumb>
@@ -201,22 +222,21 @@ function RouteComponent() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <Check /> Available from
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Check />
-                      Property details
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Check />
-                      Status
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      {/* <Check /> */}
-                      <Minus />
-                      Price
-                    </DropdownMenuItem>
+                    {columns.map((col) => {
+                      // FIX:
+                      // @ts-expect-error this needs some type massaging somewhere, can be fixed later
+                      const id = col?.accessorKey ?? col.id;
+                      return (
+                        <DropdownMenuItem
+                          key={id}
+                          onClick={() => handleColumnSelection(id)}
+                        >
+                          {/* @ts-expect-error - yeet */}
+                          {visibleColumns[id] ? <Check /> : <Minus />}
+                          {col.header}
+                        </DropdownMenuItem>
+                      );
+                    })}
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <Button variant="outline">
@@ -227,6 +247,10 @@ function RouteComponent() {
             <DataTable
               data={DUPLICATED_MOCK_DATA}
               columns={columns}
+              visibleColumns={visibleColumns}
+              // FIX:
+              // @ts-expect-error not arsed about this for now, will fix later
+              setVisibleColumns={setVisibleColumns}
               onRowClick={(rowValue) => {
                 setIsSheetOpen(true);
                 setSelectedProperty(rowValue);

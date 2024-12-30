@@ -16,19 +16,31 @@ import {
 type Props<TData, TColumns extends ColumnDef<TData>> = {
   data: TData[];
   columns: TColumns[];
+  visibleColumns?: {
+    [key in keyof TColumns["id"]]: boolean;
+  };
+  setVisibleColumns?: (columns: {
+    [key in keyof TColumns["id"]]: boolean;
+  }) => void;
   onRowClick?: (row: TData) => void;
 } & React.HTMLAttributes<HTMLTableElement>;
 
 export function DataTable<TData, TColumns extends ColumnDef<TData>>({
   data,
   columns,
+  visibleColumns,
+  setVisibleColumns,
   onRowClick,
   ...rest
 }: Props<TData, TColumns>) {
   const table = useReactTable({
     data,
     columns,
+    state: {
+      columnVisibility: visibleColumns,
+    },
     getCoreRowModel: getCoreRowModel(),
+    onColumnVisibilityChange: setVisibleColumns,
   });
 
   return (
