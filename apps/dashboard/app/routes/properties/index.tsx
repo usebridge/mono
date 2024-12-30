@@ -3,12 +3,25 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "../../../components/data-table/data-table";
 import { useMemo, useState } from "react";
 import {
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  Button,
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
 } from "@ho/ui";
+import { useWindowEvent } from "../../../hooks/use-window-event";
 
 export const Route = createFileRoute("/properties/")({
   component: RouteComponent,
@@ -46,11 +59,22 @@ function RouteComponent() {
   const [selectedProperty, setSelectedProperty] =
     useState<(typeof MOCK_PROPERTIES)[number]>();
 
+  useWindowEvent("keydown", (ev) => {
+    if (isSheetOpen && ev.key === "Escape") {
+      setIsSheetOpen(false);
+    }
+  });
+
+  function handleAddProperty() {
+    console.log("add property");
+  }
+
   const columns: ColumnDef<(typeof MOCK_PROPERTIES)[number]>[] = useMemo(
     () => [
       {
         accessorKey: "dateAvailable",
         header: "Available from",
+        // TODO: Date-fns to format this
       },
       {
         id: "property-details",
@@ -89,9 +113,12 @@ function RouteComponent() {
 
           // TODO: Style based on status value
           return (
-            <div className="flex items-center gap-2">
-              <p className="capitalize">{rowValues.status}</p>
-            </div>
+            <Badge
+              className="py-1 text-xs capitalize text-teal-600"
+              variant="secondary"
+            >
+              {rowValues.status}
+            </Badge>
           );
         },
       },
@@ -116,31 +143,60 @@ function RouteComponent() {
   );
 
   return (
-    <Sheet open={isSheetOpen}>
-      <h1 className="text-xl">Properties</h1>
-      <DataTable
-        data={DUPLICATED_MOCK_DATA}
-        columns={columns}
-        onRowClick={(rowValue) => {
-          setIsSheetOpen(true);
-          setSelectedProperty(rowValue);
-        }}
-        className="mt-4"
-      />
-      <SheetContent
-        onOverlayClick={() => setIsSheetOpen(false)}
-        onCloseClick={() => setIsSheetOpen(false)}
-      >
-        <SheetHeader>
-          <SheetTitle>Property information</SheetTitle>
-          <SheetDescription>
-            {selectedProperty?.title}
-            <br />
-            {selectedProperty?.addressLine1}, {selectedProperty?.city},{" "}
-            {selectedProperty?.postcode}
-          </SheetDescription>
-        </SheetHeader>
-      </SheetContent>
-    </Sheet>
+    <>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+
+          <BreadcrumbItem>
+            <BreadcrumbPage>Properties</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <Sheet open={isSheetOpen}>
+        <Tabs defaultValue="table" className="mt-6 space-y-6">
+          <div className="flex justify-between">
+            <TabsList className="flex gap-4 items-center w-fit">
+              <TabsTrigger value="table">Table</TabsTrigger>
+              <TabsTrigger value="cards">Cards</TabsTrigger>
+            </TabsList>
+            <Button onClick={handleAddProperty} variant="outline">
+              Add Property
+            </Button>
+          </div>
+
+          <TabsContent value="table">
+            <DataTable
+              data={DUPLICATED_MOCK_DATA}
+              columns={columns}
+              onRowClick={(rowValue) => {
+                setIsSheetOpen(true);
+                setSelectedProperty(rowValue);
+              }}
+            />
+          </TabsContent>
+          <TabsContent value="cards">card content m8</TabsContent>
+        </Tabs>
+
+        <SheetContent
+          onOverlayClick={() => setIsSheetOpen(false)}
+          onCloseClick={() => setIsSheetOpen(false)}
+        >
+          <SheetHeader>
+            <SheetTitle>Property information</SheetTitle>
+            <SheetDescription>
+              {selectedProperty?.title}
+              <br />
+              {selectedProperty?.addressLine1}, {selectedProperty?.city},{" "}
+              {selectedProperty?.postcode}
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
+    </>
   );
 }
