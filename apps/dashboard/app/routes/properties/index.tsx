@@ -2,7 +2,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "../../../components/data-table/data-table";
 import { useMemo, useState } from "react";
-import { Download, EllipsisVertical, LocateIcon, Pencil } from "lucide-react";
+import {
+  AlignJustify,
+  AudioLines,
+  Check,
+  Download,
+  EllipsisVertical,
+  LocateIcon,
+  Minus,
+  MoveHorizontal,
+  Pencil,
+} from "lucide-react";
 import {
   Badge,
   Breadcrumb,
@@ -23,6 +33,10 @@ import {
   TabsTrigger,
   Input,
   Separator,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
 } from "@ho/ui";
 import { useWindowEvent } from "../../../hooks/use-window-event";
 
@@ -176,9 +190,35 @@ function RouteComponent() {
           <Separator />
 
           <TabsContent value="table">
-            <div className="flex gap-2 justify-between">
+            <div className="flex gap-2 justify-between items-center">
               <Input placeholder="Search properties" className="mb-4 w-64" />
-              <div>
+              <div className="flex gap-x-2 items-center">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline">
+                      <AlignJustify />
+                      Columns
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      <Check /> Available from
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Check />
+                      Property details
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Check />
+                      Status
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      {/* <Check /> */}
+                      <Minus />
+                      Price
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <Button variant="outline">
                   <Download />
                 </Button>
