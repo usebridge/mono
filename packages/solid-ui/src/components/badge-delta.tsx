@@ -133,15 +133,15 @@ const BadgeDelta: Component<BadgeDeltaProps> = (props) => {
       () => local.deltaType,
       () => {
         Icon = iconMap[local.deltaType];
-      }
-    )
+      },
+    ),
   );
 
   return (
     <Badge
       class={cn(
         badgeDeltaVariants({ variant: variantMap[local.deltaType] }),
-        local.class
+        local.class,
       )}
       {...others}
     >

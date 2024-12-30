@@ -31,7 +31,7 @@ const BarList = <T,>(rawProps: BarListProps<T>) => {
       valueFormatter: defaultValueFormatter,
       sortOrder: "descending" as SortOrder,
     },
-    rawProps
+    rawProps,
   );
   const [local, others] = splitProps(props, [
     "class",
@@ -45,14 +45,14 @@ const BarList = <T,>(rawProps: BarListProps<T>) => {
       return local.data;
     }
     return local.data.sort((a, b) =>
-      local.sortOrder === "ascending" ? a.value - b.value : b.value - a.value
+      local.sortOrder === "ascending" ? a.value - b.value : b.value - a.value,
     );
   };
 
   const widths = () => {
     const maxValue = Math.max(...sortedData().map((item) => item.value), 0);
     return sortedData().map((item) =>
-      item.value === 0 ? 0 : Math.max((item.value / maxValue) * 100, 2)
+      item.value === 0 ? 0 : Math.max((item.value / maxValue) * 100, 2),
     );
   };
 
@@ -69,7 +69,7 @@ const BarList = <T,>(rawProps: BarListProps<T>) => {
               <div class="grow">
                 <div
                   class={cn(
-                    "flex h-8 items-center rounded-md bg-secondary px-2"
+                    "flex h-8 items-center rounded-md bg-secondary px-2",
                   )}
                   style={{
                     width: `${widths()[idx()]}%`,

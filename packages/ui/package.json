@@ -3,11 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "module": "index.ts",
-  "files": [
-    "tailwind.config.ts",
-    "postcss.config.js",
-    "globals.css"
-  ],
+  "files": ["tailwind.config.ts", "postcss.config.js", "globals.css"],
   "exports": {
     ".": "./index.ts",
     "./globals.css": "./src/globals.css",

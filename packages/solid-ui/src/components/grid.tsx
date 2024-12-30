@@ -31,7 +31,7 @@ const Grid: Component<GridProps> = (rawProps) => {
         local.colsSm && gridColsSm[local.colsSm],
         local.colsMd && gridColsMd[local.colsMd],
         local.colsLg && gridColsLg[local.colsLg],
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -62,7 +62,7 @@ const Col: Component<ColProps> = (rawProps) => {
         local.spanSm && colSpanSm[local.spanSm],
         local.spanMd && colSpanMd[local.spanMd],
         local.spanLg && colSpanLg[local.spanLg],
-        local.class
+        local.class,
       )}
       {...others}
     />

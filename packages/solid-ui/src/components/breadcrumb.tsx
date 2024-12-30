@@ -14,7 +14,7 @@ const BreadcrumbList: Component<ComponentProps<"ol">> = (props) => {
     <ol
       class={cn(
         "flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -35,14 +35,14 @@ type BreadcrumbLinkProps<T extends ValidComponent = "a"> =
   BreadcrumbPrimitive.BreadcrumbsLinkProps<T> & { class?: string | undefined };
 
 const BreadcrumbLink = <T extends ValidComponent = "a">(
-  props: PolymorphicProps<T, BreadcrumbLinkProps<T>>
+  props: PolymorphicProps<T, BreadcrumbLinkProps<T>>,
 ) => {
   const [local, others] = splitProps(props as BreadcrumbLinkProps, ["class"]);
   return (
     <BreadcrumbPrimitive.Link
       class={cn(
         "transition-colors hover:text-foreground data-[current]:font-normal data-[current]:text-foreground",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -56,7 +56,7 @@ type BreadcrumbSeparatorProps<T extends ValidComponent = "span"> =
   };
 
 const BreadcrumbSeparator = <T extends ValidComponent = "span">(
-  props: PolymorphicProps<T, BreadcrumbSeparatorProps<T>>
+  props: PolymorphicProps<T, BreadcrumbSeparatorProps<T>>,
 ) => {
   const [local, others] = splitProps(props as BreadcrumbSeparatorProps, [
     "class",

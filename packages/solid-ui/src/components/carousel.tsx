@@ -39,7 +39,7 @@ type CarouselContextProps = {
 } & CarouselProps;
 
 const CarouselContext = createContext<Accessor<CarouselContextProps> | null>(
-  null
+  null,
 );
 
 const useCarousel = () => {
@@ -53,11 +53,11 @@ const useCarousel = () => {
 };
 
 const Carousel: Component<CarouselProps & ComponentProps<"div">> = (
-  rawProps
+  rawProps,
 ) => {
   const props = mergeProps<(CarouselProps & ComponentProps<"div">)[]>(
     { orientation: "horizontal" },
-    rawProps
+    rawProps,
   );
 
   const [local, others] = splitProps(props, [
@@ -74,7 +74,7 @@ const Carousel: Component<CarouselProps & ComponentProps<"div">> = (
       ...local.opts,
       axis: local.orientation === "horizontal" ? "x" : "y",
     }),
-    () => (local.plugins === undefined ? [] : local.plugins)
+    () => (local.plugins === undefined ? [] : local.plugins),
   );
   const [canScrollPrev, setCanScrollPrev] = createSignal(false);
   const [canScrollNext, setCanScrollNext] = createSignal(false);
@@ -136,7 +136,7 @@ const Carousel: Component<CarouselProps & ComponentProps<"div">> = (
         scrollNext,
         canScrollPrev,
         canScrollNext,
-      } satisfies CarouselContextProps)
+      }) satisfies CarouselContextProps,
   );
 
   return (
@@ -163,7 +163,7 @@ const CarouselContent: Component<ComponentProps<"div">> = (props) => {
         class={cn(
           "flex",
           orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
-          local.class
+          local.class,
         )}
         {...others}
       />
@@ -182,7 +182,7 @@ const CarouselItem: Component<ComponentProps<"div">> = (props) => {
       class={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -194,7 +194,7 @@ type CarouselButtonProps = VoidProps<ButtonProps>;
 const CarouselPrevious: Component<CarouselButtonProps> = (rawProps) => {
   const props = mergeProps<CarouselButtonProps[]>(
     { variant: "outline", size: "icon" },
-    rawProps
+    rawProps,
   );
   const [local, others] = splitProps(props, ["class", "variant", "size"]);
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
@@ -208,7 +208,7 @@ const CarouselPrevious: Component<CarouselButtonProps> = (rawProps) => {
         orientation === "horizontal"
           ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-        local.class
+        local.class,
       )}
       disabled={!canScrollPrev()}
       onClick={scrollPrev}
@@ -236,7 +236,7 @@ const CarouselPrevious: Component<CarouselButtonProps> = (rawProps) => {
 const CarouselNext: Component<CarouselButtonProps> = (rawProps) => {
   const props = mergeProps<CarouselButtonProps[]>(
     { variant: "outline", size: "icon" },
-    rawProps
+    rawProps,
   );
   const [local, others] = splitProps(props, ["class", "variant", "size"]);
   const { orientation, scrollNext, canScrollNext } = useCarousel();
@@ -250,7 +250,7 @@ const CarouselNext: Component<CarouselButtonProps> = (rawProps) => {
         orientation === "horizontal"
           ? "-right-12 top-1/2 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-        local.class
+        local.class,
       )}
       disabled={!canScrollNext()}
       onClick={scrollNext}

@@ -13,14 +13,14 @@ type PaginationRootProps<T extends ValidComponent = "nav"> =
   PaginationPrimitive.PaginationRootProps<T> & { class?: string | undefined };
 
 const Pagination = <T extends ValidComponent = "nav">(
-  props: PolymorphicProps<T, PaginationRootProps<T>>
+  props: PolymorphicProps<T, PaginationRootProps<T>>,
 ) => {
   const [local, others] = splitProps(props as PaginationRootProps, ["class"]);
   return (
     <PaginationPrimitive.Root
       class={cn(
         "[&>*]:flex [&>*]:flex-row [&>*]:items-center [&>*]:gap-1",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -31,7 +31,7 @@ type PaginationItemProps<T extends ValidComponent = "button"> =
   PaginationPrimitive.PaginationItemProps<T> & { class?: string | undefined };
 
 const PaginationItem = <T extends ValidComponent = "button">(
-  props: PolymorphicProps<T, PaginationItemProps<T>>
+  props: PolymorphicProps<T, PaginationItemProps<T>>,
 ) => {
   const [local, others] = splitProps(props as PaginationItemProps, ["class"]);
   return (
@@ -41,7 +41,7 @@ const PaginationItem = <T extends ValidComponent = "button">(
           variant: "ghost",
         }),
         "size-10 data-[current]:border",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -54,7 +54,7 @@ type PaginationEllipsisProps<T extends ValidComponent = "div"> =
   };
 
 const PaginationEllipsis = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, PaginationEllipsisProps<T>>
+  props: PolymorphicProps<T, PaginationEllipsisProps<T>>,
 ) => {
   const [local, others] = splitProps(props as PaginationEllipsisProps, [
     "class",
@@ -90,7 +90,7 @@ type PaginationPreviousProps<T extends ValidComponent = "button"> =
   };
 
 const PaginationPrevious = <T extends ValidComponent = "button">(
-  props: PolymorphicProps<T, PaginationPreviousProps<T>>
+  props: PolymorphicProps<T, PaginationPreviousProps<T>>,
 ) => {
   const [local, others] = splitProps(props as PaginationPreviousProps, [
     "class",
@@ -103,7 +103,7 @@ const PaginationPrevious = <T extends ValidComponent = "button">(
           variant: "ghost",
         }),
         "gap-1 pl-2.5",
-        local.class
+        local.class,
       )}
       {...others}
     >
@@ -135,7 +135,7 @@ type PaginationNextProps<T extends ValidComponent = "button"> =
   };
 
 const PaginationNext = <T extends ValidComponent = "button">(
-  props: PolymorphicProps<T, PaginationNextProps<T>>
+  props: PolymorphicProps<T, PaginationNextProps<T>>,
 ) => {
   const [local, others] = splitProps(props as PaginationNextProps, [
     "class",
@@ -148,7 +148,7 @@ const PaginationNext = <T extends ValidComponent = "button">(
           variant: "ghost",
         }),
         "gap-1 pl-2.5",
-        local.class
+        local.class,
       )}
       {...others}
     >

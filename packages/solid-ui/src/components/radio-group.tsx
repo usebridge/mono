@@ -10,7 +10,7 @@ type RadioGroupRootProps<T extends ValidComponent = "div"> =
   RadioGroupPrimitive.RadioGroupRootProps<T> & { class?: string | undefined };
 
 const RadioGroup = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, RadioGroupRootProps<T>>
+  props: PolymorphicProps<T, RadioGroupRootProps<T>>,
 ) => {
   const [local, others] = splitProps(props as RadioGroupRootProps, ["class"]);
   return (
@@ -28,7 +28,7 @@ type RadioGroupItemProps<T extends ValidComponent = "div"> =
   };
 
 const RadioGroupItem = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, RadioGroupItemProps<T>>
+  props: PolymorphicProps<T, RadioGroupItemProps<T>>,
 ) => {
   const [local, others] = splitProps(props as RadioGroupItemProps, [
     "class",
@@ -67,14 +67,14 @@ type RadioGroupLabelProps<T extends ValidComponent = "label"> =
   };
 
 const RadioGroupItemLabel = <T extends ValidComponent = "label">(
-  props: PolymorphicProps<T, RadioGroupLabelProps<T>>
+  props: PolymorphicProps<T, RadioGroupLabelProps<T>>,
 ) => {
   const [local, others] = splitProps(props as RadioGroupLabelProps, ["class"]);
   return (
     <RadioGroupPrimitive.ItemLabel
       class={cn(
         "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-        local.class
+        local.class,
       )}
       {...others}
     />

@@ -24,7 +24,7 @@ type ProgressCircleProps = ComponentProps<"div"> & {
 const ProgressCircle: Component<ProgressCircleProps> = (rawProps) => {
   const props = mergeProps(
     { size: "md" as Size, showAnimation: true },
-    rawProps
+    rawProps,
   );
   const [local, others] = splitProps(props, [
     "class",
@@ -80,7 +80,7 @@ const ProgressCircle: Component<ProgressCircleProps> = (rawProps) => {
               "stroke-primary transition-colors ease-linear",
               local.showAnimation
                 ? "transition-all duration-300 ease-in-out"
-                : ""
+                : "",
             )}
           />
         ) : null}

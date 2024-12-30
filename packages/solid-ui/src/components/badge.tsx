@@ -23,7 +23,7 @@ const badgeVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 type BadgeProps = ComponentProps<"div"> &
@@ -38,7 +38,7 @@ const Badge: Component<BadgeProps> = (props) => {
       class={cn(
         badgeVariants({ variant: local.variant }),
         local.round ? "rounded-full" : "rounded-md",
-        local.class
+        local.class,
       )}
       {...others}
     />

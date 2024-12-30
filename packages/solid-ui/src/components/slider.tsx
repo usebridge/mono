@@ -13,14 +13,14 @@ type SliderRootProps<T extends ValidComponent = "div"> =
   };
 
 const Slider = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, SliderRootProps<T>>
+  props: PolymorphicProps<T, SliderRootProps<T>>,
 ) => {
   const [local, others] = splitProps(props as SliderRootProps, ["class"]);
   return (
     <SliderPrimitive.Root
       class={cn(
         "relative flex w-full touch-none select-none flex-col items-center",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -33,14 +33,14 @@ type SliderTrackProps<T extends ValidComponent = "div"> =
   };
 
 const SliderTrack = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, SliderTrackProps<T>>
+  props: PolymorphicProps<T, SliderTrackProps<T>>,
 ) => {
   const [local, others] = splitProps(props as SliderTrackProps, ["class"]);
   return (
     <SliderPrimitive.Track
       class={cn(
         "relative h-2 w-full grow rounded-full bg-secondary",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -53,7 +53,7 @@ type SliderFillProps<T extends ValidComponent = "div"> =
   };
 
 const SliderFill = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, SliderFillProps<T>>
+  props: PolymorphicProps<T, SliderFillProps<T>>,
 ) => {
   const [local, others] = splitProps(props as SliderFillProps, ["class"]);
   return (
@@ -71,7 +71,7 @@ type SliderThumbProps<T extends ValidComponent = "span"> =
   };
 
 const SliderThumb = <T extends ValidComponent = "span">(
-  props: PolymorphicProps<T, SliderThumbProps<T>>
+  props: PolymorphicProps<T, SliderThumbProps<T>>,
 ) => {
   const [local, others] = splitProps(props as SliderThumbProps, [
     "class",
@@ -81,7 +81,7 @@ const SliderThumb = <T extends ValidComponent = "span">(
     <SliderPrimitive.Thumb
       class={cn(
         "top-[-6px] block size-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-        local.class
+        local.class,
       )}
       {...others}
     >
@@ -91,13 +91,13 @@ const SliderThumb = <T extends ValidComponent = "span">(
 };
 
 const SliderLabel = <T extends ValidComponent = "label">(
-  props: PolymorphicProps<T, SliderPrimitive.SliderLabelProps<T>>
+  props: PolymorphicProps<T, SliderPrimitive.SliderLabelProps<T>>,
 ) => {
   return <SliderPrimitive.Label as={Label} {...props} />;
 };
 
 const SliderValueLabel = <T extends ValidComponent = "label">(
-  props: PolymorphicProps<T, SliderPrimitive.SliderValueLabelProps<T>>
+  props: PolymorphicProps<T, SliderPrimitive.SliderValueLabelProps<T>>,
 ) => {
   return <SliderPrimitive.ValueLabel as={Label} {...props} />;
 };

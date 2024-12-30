@@ -25,7 +25,7 @@ type DrawerOverlayProps<T extends ValidComponent = "div"> = OverlayProps<T> & {
 };
 
 const DrawerOverlay = <T extends ValidComponent = "div">(
-  props: DynamicProps<T, DrawerOverlayProps<T>>
+  props: DynamicProps<T, DrawerOverlayProps<T>>,
 ) => {
   const [, rest] = splitProps(props as DrawerOverlayProps, ["class"]);
   const drawerContext = DrawerPrimitive.useContext();
@@ -33,7 +33,7 @@ const DrawerOverlay = <T extends ValidComponent = "div">(
     <DrawerPrimitive.Overlay
       class={cn(
         "fixed inset-0 z-50 data-[transitioning]:transition-colors data-[transitioning]:duration-300",
-        props.class
+        props.class,
       )}
       style={{
         "background-color": `rgb(0 0 0 / ${
@@ -51,7 +51,7 @@ type DrawerContentProps<T extends ValidComponent = "div"> = ContentProps<T> & {
 };
 
 const DrawerContent = <T extends ValidComponent = "div">(
-  props: DynamicProps<T, DrawerContentProps<T>>
+  props: DynamicProps<T, DrawerContentProps<T>>,
 ) => {
   const [, rest] = splitProps(props as DrawerContentProps, [
     "class",
@@ -63,7 +63,7 @@ const DrawerContent = <T extends ValidComponent = "div">(
       <DrawerPrimitive.Content
         class={cn(
           "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background after:absolute after:inset-x-0 after:top-full after:h-1/2 after:bg-inherit data-[transitioning]:transition-transform data-[transitioning]:duration-300 md:select-none",
-          props.class
+          props.class,
         )}
         {...rest}
       >
@@ -96,14 +96,14 @@ type DrawerTitleProps<T extends ValidComponent = "div"> = LabelProps<T> & {
 };
 
 const DrawerTitle = <T extends ValidComponent = "div">(
-  props: DynamicProps<T, DrawerTitleProps<T>>
+  props: DynamicProps<T, DrawerTitleProps<T>>,
 ) => {
   const [, rest] = splitProps(props as DrawerTitleProps, ["class"]);
   return (
     <DrawerPrimitive.Label
       class={cn(
         "text-lg font-semibold leading-none tracking-tight",
-        props.class
+        props.class,
       )}
       {...rest}
     />
@@ -116,7 +116,7 @@ type DrawerDescriptionProps<T extends ValidComponent = "div"> =
   };
 
 const DrawerDescription = <T extends ValidComponent = "div">(
-  props: DynamicProps<T, DrawerDescriptionProps<T>>
+  props: DynamicProps<T, DrawerDescriptionProps<T>>,
 ) => {
   const [, rest] = splitProps(props as DrawerDescriptionProps, ["class"]);
   return (

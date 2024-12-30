@@ -10,7 +10,7 @@ type CheckboxRootProps<T extends ValidComponent = "div"> =
   CheckboxPrimitive.CheckboxRootProps<T> & { class?: string | undefined };
 
 const Checkbox = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, CheckboxRootProps<T>>
+  props: PolymorphicProps<T, CheckboxRootProps<T>>,
 ) => {
   const [local, others] = splitProps(props as CheckboxRootProps, ["class"]);
   return (

@@ -21,7 +21,7 @@ const alertVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 type AlertRootProps<T extends ValidComponent = "div"> =
@@ -29,7 +29,7 @@ type AlertRootProps<T extends ValidComponent = "div"> =
     VariantProps<typeof alertVariants> & { class?: string | undefined };
 
 const Alert = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, AlertRootProps<T>>
+  props: PolymorphicProps<T, AlertRootProps<T>>,
 ) => {
   const [local, others] = splitProps(props as AlertRootProps, [
     "class",

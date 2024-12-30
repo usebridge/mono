@@ -73,7 +73,7 @@ const BaseChart: Component<ChartProps> = (rawProps) => {
       options: { responsive: true } as ChartOptions,
       plugins: [] as ChartPlugin[],
     },
-    rawProps
+    rawProps,
   );
 
   const init = () => {
@@ -97,8 +97,8 @@ const BaseChart: Component<ChartProps> = (rawProps) => {
         chart()!.data = props.data;
         chart()!.update();
       },
-      { defer: true }
-    )
+      { defer: true },
+    ),
   );
 
   createEffect(
@@ -108,8 +108,8 @@ const BaseChart: Component<ChartProps> = (rawProps) => {
         chart()!.options = props.options;
         chart()!.update();
       },
-      { defer: true }
-    )
+      { defer: true },
+    ),
   );
 
   createEffect(
@@ -118,8 +118,8 @@ const BaseChart: Component<ChartProps> = (rawProps) => {
       () => {
         chart()!.resize(props.width, props.height);
       },
-      { defer: true }
-    )
+      { defer: true },
+    ),
   );
 
   createEffect(
@@ -131,8 +131,8 @@ const BaseChart: Component<ChartProps> = (rawProps) => {
         init();
         chart()!.resize(...dimensions);
       },
-      { defer: true }
-    )
+      { defer: true },
+    ),
   );
 
   onCleanup(() => {
@@ -199,7 +199,7 @@ function showTooltip(context: ChartContext) {
 
 function createTypedChart(
   type: ChartType,
-  components: ChartComponent[]
+  components: ChartComponent[],
 ): Component<TypedChartProps> {
   const chartsWithScales: ChartType[] = ["bar", "line", "scatter"];
   const chartsWithLegends: ChartType[] = ["bar", "line"];

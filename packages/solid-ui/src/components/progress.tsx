@@ -10,7 +10,7 @@ type ProgressRootProps<T extends ValidComponent = "div"> =
   ProgressPrimitive.ProgressRootProps<T> & { children?: JSX.Element };
 
 const Progress = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, ProgressRootProps<T>>
+  props: PolymorphicProps<T, ProgressRootProps<T>>,
 ) => {
   const [local, others] = splitProps(props as ProgressRootProps, ["children"]);
   return (
@@ -24,7 +24,7 @@ const Progress = <T extends ValidComponent = "div">(
 };
 
 const ProgressLabel: Component<ProgressPrimitive.ProgressLabelProps> = (
-  props
+  props,
 ) => {
   return <ProgressPrimitive.Label as={Label} {...props} />;
 };

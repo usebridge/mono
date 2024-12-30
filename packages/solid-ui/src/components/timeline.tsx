@@ -91,7 +91,7 @@ const TimelineItem: Component<TimelineItemProps> = (props) => {
         "relative border-l pb-8 pl-8",
         local.isLast && "border-l-transparent pb-0",
         local.isActive && !local.isLast && "border-l-primary",
-        local.class
+        local.class,
       )}
       style={{
         "border-left-width": `${local.lineSize}px`,
@@ -125,7 +125,7 @@ const TimelineItemBullet: Component<TimelineItemBulletProps> = (props) => {
     <div
       class={cn(
         "absolute top-0 flex items-center justify-center rounded-full border bg-background",
-        props.isActive && "border-primary"
+        props.isActive && "border-primary",
       )}
       style={{
         width: `${props.bulletSize}px`,

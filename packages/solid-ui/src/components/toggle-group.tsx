@@ -21,7 +21,7 @@ type ToggleGroupRootProps<T extends ValidComponent = "div"> =
     };
 
 const ToggleGroup = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, ToggleGroupRootProps<T>>
+  props: PolymorphicProps<T, ToggleGroupRootProps<T>>,
 ) => {
   const [local, others] = splitProps(props as ToggleGroupRootProps, [
     "class",
@@ -56,7 +56,7 @@ type ToggleGroupItemProps<T extends ValidComponent = "button"> =
     VariantProps<typeof toggleVariants> & { class?: string | undefined };
 
 const ToggleGroupItem = <T extends ValidComponent = "button">(
-  props: PolymorphicProps<T, ToggleGroupItemProps<T>>
+  props: PolymorphicProps<T, ToggleGroupItemProps<T>>,
 ) => {
   const [local, others] = splitProps(props as ToggleGroupItemProps, [
     "class",
@@ -72,7 +72,7 @@ const ToggleGroupItem = <T extends ValidComponent = "button">(
           variant: context.variant || local.variant,
         }),
         "hover:bg-muted hover:text-muted-foreground data-[pressed]:bg-accent data-[pressed]:text-accent-foreground",
-        local.class
+        local.class,
       )}
       {...others}
     />

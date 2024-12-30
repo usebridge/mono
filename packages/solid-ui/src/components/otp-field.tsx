@@ -15,14 +15,14 @@ type OTPFieldProps<T extends ValidComponent = "div"> = RootProps<T> & {
 };
 
 const OTPField = <T extends ValidComponent = "div">(
-  props: DynamicProps<T, OTPFieldProps<T>>
+  props: DynamicProps<T, OTPFieldProps<T>>,
 ) => {
   const [local, others] = splitProps(props as OTPFieldProps, ["class"]);
   return (
     <OtpField
       class={cn(
         "flex items-center gap-2 disabled:cursor-not-allowed has-[:disabled]:opacity-50",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -37,7 +37,7 @@ const OTPFieldGroup: Component<ComponentProps<"div">> = (props) => {
 };
 
 const OTPFieldSlot: Component<ComponentProps<"div"> & { index: number }> = (
-  props
+  props,
 ) => {
   const [local, others] = splitProps(props, ["class", "index"]);
   const context = OtpField.useContext();
@@ -49,7 +49,7 @@ const OTPFieldSlot: Component<ComponentProps<"div"> & { index: number }> = (
     <div
       class={cn(
         "group relative flex size-10 items-center justify-center border-y border-r border-input text-sm first:rounded-l-md first:border-l last:rounded-r-md",
-        local.class
+        local.class,
       )}
       {...others}
     >
@@ -57,7 +57,7 @@ const OTPFieldSlot: Component<ComponentProps<"div"> & { index: number }> = (
         class={cn(
           "absolute inset-0 z-10 transition-all group-first:rounded-l-md group-last:rounded-r-md",
           context.activeSlots().includes(local.index) &&
-            "ring-2 ring-ring ring-offset-background"
+            "ring-2 ring-ring ring-offset-background",
         )}
       />
       {char()}

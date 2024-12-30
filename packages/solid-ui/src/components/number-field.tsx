@@ -14,7 +14,7 @@ const NumberFieldGroup: Component<ComponentProps<"div">> = (props) => {
     <div
       class={cn(
         "relative rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -27,14 +27,14 @@ type NumberFieldLabelProps<T extends ValidComponent = "label"> =
   };
 
 const NumberFieldLabel = <T extends ValidComponent = "label">(
-  props: PolymorphicProps<T, NumberFieldLabelProps<T>>
+  props: PolymorphicProps<T, NumberFieldLabelProps<T>>,
 ) => {
   const [local, others] = splitProps(props as NumberFieldLabelProps, ["class"]);
   return (
     <NumberFieldPrimitive.Label
       class={cn(
         "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -47,14 +47,14 @@ type NumberFieldInputProps<T extends ValidComponent = "input"> =
   };
 
 const NumberFieldInput = <T extends ValidComponent = "input">(
-  props: PolymorphicProps<T, NumberFieldInputProps<T>>
+  props: PolymorphicProps<T, NumberFieldInputProps<T>>,
 ) => {
   const [local, others] = splitProps(props as NumberFieldInputProps, ["class"]);
   return (
     <NumberFieldPrimitive.Input
       class={cn(
         "flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[invalid]:border-error-foreground data-[invalid]:text-error-foreground",
-        local.class
+        local.class,
       )}
       {...others}
     />
@@ -68,17 +68,17 @@ type NumberFieldIncrementTriggerProps<T extends ValidComponent = "button"> =
   };
 
 const NumberFieldIncrementTrigger = <T extends ValidComponent = "button">(
-  props: PolymorphicProps<T, NumberFieldIncrementTriggerProps<T>>
+  props: PolymorphicProps<T, NumberFieldIncrementTriggerProps<T>>,
 ) => {
   const [local, others] = splitProps(
     props as NumberFieldIncrementTriggerProps,
-    ["class", "children"]
+    ["class", "children"],
   );
   return (
     <NumberFieldPrimitive.IncrementTrigger
       class={cn(
         "absolute right-1 top-1 inline-flex size-4 items-center justify-center",
-        local.class
+        local.class,
       )}
       {...others}
     >
@@ -107,17 +107,17 @@ type NumberFieldDecrementTriggerProps<T extends ValidComponent = "button"> =
   };
 
 const NumberFieldDecrementTrigger = <T extends ValidComponent = "button">(
-  props: PolymorphicProps<T, NumberFieldDecrementTriggerProps<T>>
+  props: PolymorphicProps<T, NumberFieldDecrementTriggerProps<T>>,
 ) => {
   const [local, others] = splitProps(
     props as NumberFieldDecrementTriggerProps,
-    ["class", "children"]
+    ["class", "children"],
   );
   return (
     <NumberFieldPrimitive.DecrementTrigger
       class={cn(
         "absolute bottom-1 right-1 inline-flex size-4 items-center justify-center",
-        local.class
+        local.class,
       )}
       {...others}
     >
@@ -145,7 +145,7 @@ type NumberFieldDescriptionProps<T extends ValidComponent = "div"> =
   };
 
 const NumberFieldDescription = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, NumberFieldDescriptionProps<T>>
+  props: PolymorphicProps<T, NumberFieldDescriptionProps<T>>,
 ) => {
   const [local, others] = splitProps(props as NumberFieldDescriptionProps, [
     "class",
@@ -164,7 +164,7 @@ type NumberFieldErrorMessageProps<T extends ValidComponent = "div"> =
   };
 
 const NumberFieldErrorMessage = <T extends ValidComponent = "div">(
-  props: PolymorphicProps<T, NumberFieldErrorMessageProps<T>>
+  props: PolymorphicProps<T, NumberFieldErrorMessageProps<T>>,
 ) => {
   const [local, others] = splitProps(props as NumberFieldErrorMessageProps, [
     "class",

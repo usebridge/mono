@@ -18,7 +18,7 @@ const DeltaBar: Component<DeltaBarProps> = (rawProps) => {
     {
       isIncreasePositive: true,
     },
-    rawProps
+    rawProps,
   );
   const [local, others] = splitProps(props, [
     "value",
@@ -30,7 +30,7 @@ const DeltaBar: Component<DeltaBarProps> = (rawProps) => {
     <div
       class={cn(
         "relative flex h-2 w-full items-center rounded-full bg-secondary",
-        local.class
+        local.class,
       )}
       {...others}
     >
@@ -42,7 +42,7 @@ const DeltaBar: Component<DeltaBarProps> = (rawProps) => {
               (local.value > 0 && local.isIncreasePositive) ||
                 (local.value < 0 && !local.isIncreasePositive)
                 ? "bg-success-foreground"
-                : "bg-error-foreground"
+                : "bg-error-foreground",
             )}
             style={{ width: `${Math.abs(local.value)}%` }}
           />
@@ -50,7 +50,7 @@ const DeltaBar: Component<DeltaBarProps> = (rawProps) => {
       </div>
       <div
         class={cn(
-          "z-10 h-4 w-1 rounded-full bg-primary ring-2 ring-background"
+          "z-10 h-4 w-1 rounded-full bg-primary ring-2 ring-background",
         )}
       />
       <div class="flex h-full w-1/2 justify-start">
@@ -61,7 +61,7 @@ const DeltaBar: Component<DeltaBarProps> = (rawProps) => {
               (local.value > 0 && local.isIncreasePositive) ||
                 (local.value < 0 && !local.isIncreasePositive)
                 ? "bg-success-foreground"
-                : "bg-error-foreground"
+                : "bg-error-foreground",
             )}
             style={{ width: `${Math.abs(local.value)}%` }}
           />
