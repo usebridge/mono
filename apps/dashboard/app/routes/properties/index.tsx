@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "../../../components/data-table/data-table";
 import { useMemo, useState } from "react";
+import { Download, EllipsisVertical, LocateIcon, Pencil } from "lucide-react";
 import {
   Badge,
   Breadcrumb,
@@ -20,6 +21,8 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  Input,
+  Separator,
 } from "@ho/ui";
 import { useWindowEvent } from "../../../hooks/use-window-event";
 
@@ -91,9 +94,10 @@ function RouteComponent() {
               />
               <div>
                 <div className="flex gap-1 items-center mb-2">
-                  <h2 className="capitalize">{rowValues.propertyType}</h2>
+                  <h2 className="capitalize">{rowValues.title}</h2>
                   <p className="text-sm text-muted-foreground">
-                    - {rowValues.squareFootage} sq ft
+                    - {rowValues.squareFootage} sq ft,{" "}
+                    <span className="capitalize">{rowValues.propertyType}</span>
                   </p>
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -160,7 +164,7 @@ function RouteComponent() {
       <Sheet open={isSheetOpen}>
         <Tabs defaultValue="table" className="mt-6 space-y-6">
           <div className="flex justify-between">
-            <TabsList className="flex gap-4 items-center w-fit">
+            <TabsList className="flex gap-1 items-center">
               <TabsTrigger value="table">Table</TabsTrigger>
               <TabsTrigger value="cards">Cards</TabsTrigger>
             </TabsList>
@@ -169,7 +173,17 @@ function RouteComponent() {
             </Button>
           </div>
 
+          <Separator />
+
           <TabsContent value="table">
+            <div className="flex gap-2 justify-between">
+              <Input placeholder="Search properties" className="mb-4 w-64" />
+              <div>
+                <Button variant="outline">
+                  <Download />
+                </Button>
+              </div>
+            </div>
             <DataTable
               data={DUPLICATED_MOCK_DATA}
               columns={columns}
@@ -183,18 +197,48 @@ function RouteComponent() {
         </Tabs>
 
         <SheetContent
+          showCloseBtn={false}
           onOverlayClick={() => setIsSheetOpen(false)}
-          onCloseClick={() => setIsSheetOpen(false)}
+          // onCloseClick={() => setIsSheetOpen(false)}
         >
-          <SheetHeader>
-            <SheetTitle>Property information</SheetTitle>
-            <SheetDescription>
-              {selectedProperty?.title}
-              <br />
-              {selectedProperty?.addressLine1}, {selectedProperty?.city},{" "}
-              {selectedProperty?.postcode}
-            </SheetDescription>
-          </SheetHeader>
+          <div className="flex gap-2 justify-between items-center mb-4">
+            <h4 className="text-lg">Property details</h4>
+            <div className="flex gap-2 items-center">
+              <Button variant="ghost" size="icon">
+                <Pencil />
+              </Button>
+              <Button variant="ghost" size="icon">
+                <EllipsisVertical />
+              </Button>
+            </div>
+          </div>
+          <div className="flex gap-2 items-center">
+            <img
+              src="https://images.unsplash.com/photo-1464146072230-91cabc968266?q=80&w=2880&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Cover of the property"
+              className="w-24 h-24 rounded-lg object-cover"
+            />
+            <SheetHeader className="space-y-0">
+              <SheetTitle className="my-0">
+                {selectedProperty?.title}
+              </SheetTitle>
+              <SheetDescription>
+                {selectedProperty?.addressLine1}, {selectedProperty?.city},{" "}
+                {selectedProperty?.postcode}
+              </SheetDescription>
+            </SheetHeader>
+          </div>
+          <Separator className="my-4" />
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Bedrooms:{" "}
+              <span className="text-primary">{selectedProperty?.bedrooms}</span>
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Bedrooms:{" "}
+              <span className="text-primary">{selectedProperty?.bedrooms}</span>
+            </p>
+          </div>
         </SheetContent>
       </Sheet>
     </>

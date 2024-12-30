@@ -1,6 +1,7 @@
 import type * as React from "react";
 import {
   Boxes,
+  Calendar,
   Github,
   Home,
   LucideListFilter,
@@ -41,6 +42,11 @@ const data = {
       icon: PersonStanding,
     },
     {
+      title: "Calendar",
+      url: "/calendar",
+      icon: Calendar,
+    },
+    {
       title: "Bookings",
       url: "/bookings",
       icon: LucideListFilter,
@@ -77,7 +83,7 @@ const data = {
     },
     {
       title: "Contact",
-      url: "mailto:support@usebridge.com",
+      url: "mailto:support@usebridge.co.uk",
       icon: Send,
     },
   ],
@@ -109,7 +115,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavUser
           user={{
             name: "Ryan Harman",
-            email: "ryan@usebridge.com",
+            email: "ryan@usebridge.co.uk",
             avatar: "https://avatars.githubusercontent.com/u/60135756?v=4",
           }}
         />
