@@ -7,9 +7,11 @@
     "start": "vinxi start"
   },
   "dependencies": {
+    "@date-fns/tz": "^1.2.0",
     "@tanstack/react-router": "^1.85.0",
     "@tanstack/react-table": "^8.20.6",
     "@tanstack/start": "^1.85.1",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.462.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
