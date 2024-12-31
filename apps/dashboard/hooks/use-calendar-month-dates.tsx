@@ -7,7 +7,7 @@ import {
 } from "date-fns";
 import { TZDate } from "@date-fns/tz";
 
-export function useCalendarDates(
+export function useCalendarMonthDates(
   currentDate: TZDate,
   weekStartsOnMonday: boolean,
 ) {

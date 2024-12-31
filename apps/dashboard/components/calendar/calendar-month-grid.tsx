@@ -1,7 +1,6 @@
 import { cn } from "@ho/utils";
 import { format, formatISO, isToday } from "date-fns";
-import { TZDate } from "@date-fns/tz";
-import { useCallback } from "react";
+import type { TZDate } from "@date-fns/tz";
 
 type CalendarGridProps = {
   firstWeek: TZDate[];
@@ -18,7 +17,7 @@ type CalendarGridProps = {
   handleMouseUp: () => void;
 };
 
-export function CalendarGrid({
+export function CalendarMonthGrid({
   firstWeek,
   calendarDays,
   currentDate,
