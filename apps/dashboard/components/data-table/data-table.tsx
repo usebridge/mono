@@ -19,9 +19,11 @@ type Props<TData, TColumns extends ColumnDef<TData>> = {
   visibleColumns?: {
     [key in keyof TColumns["id"]]: boolean;
   };
-  setVisibleColumns?: (columns: {
-    [key in keyof TColumns["id"]]: boolean;
-  }) => void;
+  setVisibleColumns?: (
+    columns: {
+      [key in keyof TColumns["id"]]: boolean;
+    },
+  ) => void;
   onRowClick?: (row: TData) => void;
 } & React.HTMLAttributes<HTMLTableElement>;
 

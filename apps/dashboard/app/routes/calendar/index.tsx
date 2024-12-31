@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { CalendarGrid } from "../../../components/calendar/calendar";
 import { TZDate } from "@date-fns/tz";
-import { useCalendarDates } from "../../../hooks/use-calendar-dates";
-import { useState } from "react";
-import { useHotkeys } from "../../../hooks/use-hotkeys";
+import { createFileRoute } from "@tanstack/react-router";
 import { add, sub } from "date-fns";
+import { useState } from "react";
+import { CalendarMonthGrid } from "../../../components/calendar/calendar-month-grid";
+import { useCalendarMonthDates } from "../../../hooks/use-calendar-month-dates";
+import { useHotkeys } from "../../../hooks/use-hotkeys";
 
 export const Route = createFileRoute("/calendar/")({
   component: RouteComponent,
@@ -19,7 +19,7 @@ function RouteComponent() {
     currentDate,
     currentDate,
   ]);
-  const calendarDates = useCalendarDates(currentDate, true);
+  const calendarDates = useCalendarMonthDates(currentDate, true);
 
   useHotkeys("ArrowLeft", () => {
     setCurrentDate((prevDate) => {
@@ -38,7 +38,7 @@ function RouteComponent() {
   });
 
   return (
-    <CalendarGrid
+    <CalendarMonthGrid
       currentDate={currentDate}
       selectedDate={selectedDate}
       handleMouseUp={() => {}}
