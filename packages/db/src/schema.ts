@@ -8,6 +8,7 @@ import {
   numeric,
   pgEnum,
   pgTableCreator,
+  primaryKey,
   text,
   timestamp,
   uuid,
@@ -34,9 +35,22 @@ const timestampHelper = () => ({
 export const organisation = pgTable("organisation", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
+  description: text("description"),
+  // Slug will be used for short URL's in the future
+  slug: text("slug"),
+  logoUrl: text("logo_url"),
+
+  // TODO: Consider a timezone field for organisations that can help with Locales
+  // TOOD: Week start value also
 
   ...timestampHelper(),
 });
+
+export const userPermissionEnum = pgEnum("user_permission", [
+  "admin",
+  "agent",
+  "user",
+]);
 
 // User Management
 export const user = pgTable("users", {
@@ -50,12 +64,11 @@ export const user = pgTable("users", {
   passwordHash: text("password_hash").notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
+  description: text("description"),
   phoneNumber: text("phone_number"),
-  role: text("role")
-    .default("user")
-    // TODO: Investigate the correct roles that we want for the system and consider permissions at a later date
-    .$type<"admin" | "agent" | "user">()
-    .notNull(),
+  avatarUrl: text("avatar_url"),
+  role: userPermissionEnum("role"),
+
   isVerified: boolean("is_verified").default(false),
   lastLogin: timestamp("last_login"),
 
@@ -63,14 +76,16 @@ export const user = pgTable("users", {
 });
 
 // User Calendar
-export const userCalendar = pgTable("user_calendar", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id")
-    .references(() => user.id)
-    .primaryKey(),
+export const userCalendar = pgTable(
+  "user_calendar",
+  {
+    id: uuid("id").defaultRandom(),
+    userId: uuid("user_id").references(() => user.id),
 
-  ...timestampHelper(),
-});
+    ...timestampHelper(),
+  },
+  (table) => [{ pk: primaryKey({ columns: [table.id, table.userId] }) }],
+);
 
 const statusEnum = pgEnum("status", [
   "pending",
@@ -185,7 +200,7 @@ export const organisationRelations = relations(organisation, ({ many }) => ({
   properties: many(property),
 }));
 
-export const userRelations = relations(user, ({ one, many }) => ({
+export const userRelations = relations(user, ({ one }) => ({
   calendar: one(userCalendar),
   organisation: one(organisation, {
     fields: [user.organisationId],
