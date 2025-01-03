@@ -7,19 +7,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   Button,
-  Card,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   Input,
-  ScrollArea,
   Separator,
   Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   Tabs,
   TabsContent,
   TabsList,
@@ -28,23 +22,11 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import {
-  AlignJustify,
-  Bath,
-  Bed,
-  CalendarDays,
-  Check,
-  Download,
-  EllipsisVertical,
-  Minus,
-  MoveDiagonal2,
-  Ruler,
-  Tag,
-  X,
-} from "lucide-react";
+import { AlignJustify, Check, Download, Minus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { DataTable } from "../../../components/data-table/data-table";
-import { useWindowEvent } from "../../../hooks/use-window-event";
+import { PropertySheetContents } from "../../../components/properties/property-sheet-contents";
+import { useHotkeys } from "../../../hooks/use-hotkeys";
 
 export const Route = createFileRoute("/properties/")({
   component: RouteComponent,
@@ -82,10 +64,8 @@ function RouteComponent() {
   const [selectedProperty, setSelectedProperty] =
     useState<(typeof MOCK_PROPERTIES)[number]>();
 
-  useWindowEvent("keydown", (ev) => {
-    if (isSheetOpen && ev.key === "Escape") {
-      setIsSheetOpen(false);
-    }
+  useHotkeys("Escape", () => {
+    setIsSheetOpen(false);
   });
 
   function handleAddProperty() {
@@ -277,173 +257,11 @@ function RouteComponent() {
           <TabsContent value="cards">card content m8</TabsContent>
         </Tabs>
 
-        <SheetContent
-          showCloseBtn={false}
-          onOverlayClick={() => setIsSheetOpen(false)}
-        >
-          <div className="flex gap-2 justify-between items-center mb-4">
-            <h4 className="text-lg">Property details</h4>
-
-            <div className="flex gap-2 items-center">
-              <Button variant="ghost" size="icon">
-                <MoveDiagonal2 />
-              </Button>
-              <Button variant="ghost" size="icon">
-                <EllipsisVertical />
-              </Button>
-              <Button
-                onClick={() => setIsSheetOpen(false)}
-                variant="ghost"
-                size="icon"
-              >
-                <X />
-              </Button>
-            </div>
-          </div>
-
-          <div className="flex gap-2 items-center">
-            <img
-              src="https://images.unsplash.com/photo-1464146072230-91cabc968266?q=80&w=2880&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Cover of the property"
-              className="w-24 h-24 rounded-lg object-cover"
-            />
-            <SheetHeader className="space-y-0">
-              <SheetTitle className="my-0">
-                {selectedProperty?.title}
-              </SheetTitle>
-              <SheetDescription>
-                {selectedProperty?.addressLine1}, {selectedProperty?.city},{" "}
-                {selectedProperty?.postcode}
-              </SheetDescription>
-            </SheetHeader>
-          </div>
-
-          <Tabs className="mt-5" defaultValue="overview">
-            <TabsList className="w-full">
-              <TabsTrigger className="w-full" value="overview">
-                Overview
-              </TabsTrigger>
-              <TabsTrigger className="w-full" value="details">
-                Details
-              </TabsTrigger>
-              {/* TODO: Viewings tab and content that relates to this property */}
-              <TabsTrigger className="w-full" value="viewings">
-                Viewings
-              </TabsTrigger>
-            </TabsList>
-            <ScrollArea className="space-y-3">
-              <TabsContent value="overview">
-                <p className="text-muted-foreground">
-                  {selectedProperty?.description}
-                </p>
-                <Separator className="my-3" />
-                <div className="flex gap-2 p-3">
-                  <Bed className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-sm font-medium">
-                    {selectedProperty?.bedrooms} Beds
-                  </span>
-                </div>
-                <div className="flex gap-2 p-3">
-                  <Bath className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-sm font-medium">
-                    {selectedProperty?.bathrooms} Baths
-                  </span>
-                </div>
-                <div className="flex gap-2 p-3">
-                  <Ruler className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-sm font-medium">
-                    {selectedProperty?.squareFootage} sq ft
-                  </span>
-                </div>
-                <div className="flex gap-2 p-3">
-                  <CalendarDays className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-sm font-medium">
-                    Available{" "}
-                    {new Date(
-                      selectedProperty?.dateAvailable ?? "",
-                    ).toLocaleDateString()}
-                  </span>
-                </div>
-              </TabsContent>
-              {/* TODO: Align this with the Overview content styles and layout */}
-              <TabsContent value="details" className="px-6 mt-2">
-                <div className="grid gap-6">
-                  <div className="grid gap-4">
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-3">
-                      <div>
-                        <div className="text-sm text-muted-foreground mb-1">
-                          Price
-                        </div>
-                        <div className="font-medium">
-                          £{selectedProperty?.price.toLocaleString()}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground mb-1">
-                          Property Type
-                        </div>
-                        <div className="font-medium capitalize">
-                          {selectedProperty?.propertyType}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground mb-1">
-                          Sale Type
-                        </div>
-                        <div className="font-medium capitalize">
-                          {selectedProperty?.saleType}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground mb-1">
-                          Status
-                        </div>
-                        <Badge
-                          variant={
-                            selectedProperty?.status === "active"
-                              ? "default"
-                              : "secondary"
-                          }
-                        >
-                          {selectedProperty?.status}
-                        </Badge>
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground mb-1">
-                          Energy Rating
-                        </div>
-                        <div className="font-medium">
-                          {selectedProperty?.energyEfficiencyRating}%
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground mb-1">
-                          County
-                        </div>
-                        <div className="font-medium">
-                          {selectedProperty?.county}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <Separator />
-                  <div className="grid gap-2">
-                    <h3 className="font-semibold">Full Address</h3>
-                    <div className="text-muted-foreground">
-                      <p>{selectedProperty?.addressLine1}</p>
-                      {selectedProperty?.addressLine2 && (
-                        <p>{selectedProperty?.addressLine2}</p>
-                      )}
-                      <p>{selectedProperty?.city}</p>
-                      <p>{selectedProperty?.county}</p>
-                      <p>{selectedProperty?.postcode}</p>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-            </ScrollArea>
-          </Tabs>
-        </SheetContent>
+        <PropertySheetContents
+          // @ts-expect-error - fix this later once we have Drizzle/Zero types
+          property={selectedProperty}
+          setIsSheetOpen={setIsSheetOpen}
+        />
       </Sheet>
     </>
   );

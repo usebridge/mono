@@ -1,15 +1,17 @@
+import { relations } from "drizzle-orm";
 import {
+  boolean,
+  date,
+  integer,
+  json,
+  jsonb,
+  numeric,
+  pgEnum,
   pgTableCreator,
   text,
   timestamp,
-  boolean,
-  numeric,
-  jsonb,
   uuid,
-  integer,
-  date,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
 
 // We handle the tables with a prefix to enable us to potentially have multiple
 // databases on the one connection. Cost saving for the time being, can be migrated
@@ -21,12 +23,28 @@ const timestampHelper = () => ({
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// TODO: Implement "feedback" table that users can provide feedback from
+//
+// TODO: Consider users that don't belong to an organisation and are just going to be viewing
+// properties and not managing them
+
 // TODO: Investigate whether we actually need some of the contents of this users table if we
 // use a separate auth management system (thinking new SST setup)
 
-// User Management
-export const users = pgTable("users", {
+export const organisation = pgTable("organisation", {
   id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+
+  ...timestampHelper(),
+});
+
+// User Management
+export const user = pgTable("users", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  organisationId: uuid("organisation_id")
+    .references(() => organisation.id)
+    .notNull(),
+
   email: text("email").unique().notNull(),
   // FIX: This is probably one of the items to remove. Ideally we don't deal with auth
   passwordHash: text("password_hash").notNull(),
@@ -44,28 +62,55 @@ export const users = pgTable("users", {
   ...timestampHelper(),
 });
 
-// Agent Profile Extension
-export const agentProfiles = pgTable("agent_profiles", {
+// User Calendar
+export const userCalendar = pgTable("user_calendar", {
+  id: uuid("id").primaryKey().defaultRandom(),
   userId: uuid("user_id")
-    .references(() => users.id)
+    .references(() => user.id)
     .primaryKey(),
-  companyName: text("company_name"),
-  // TODO: Claude came up with this. I doubt a license number is needed
-  licenseNumber: text("license_number"),
-  // TODO: Similar to above, may not be required. We'd probably want an agent company with a description
-  // that matches accordingly
-  specializations: text("specializations").array(),
-  profileImageUrl: text("profile_image_url"),
+
+  ...timestampHelper(),
+});
+
+const statusEnum = pgEnum("status", [
+  "pending",
+  "confirmed",
+  "completed",
+  "cancelled",
+]);
+const bookingTypeEnum = pgEnum("booking_type", ["viewing", "meeting", "other"]);
+
+export const booking = pgTable("booking", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  propertyId: uuid("property_id").references(() => property.id),
+  destinationCalendarId: uuid("destination_calendar_id")
+    .references(() => userCalendar.id)
+    .notNull(),
+  hostId: uuid("host_id").references(() => user.id),
+
+  title: text("title").notNull(),
+  description: text("description"),
+
+  date: date("date").notNull(),
+  startTime: date("date").notNull(),
+  endTime: date("date").notNull(),
+  notes: text("notes"),
+
+  responses: json("responses").$type<{ userId: string; response: string }[]>(),
+
+  status: statusEnum("status").default("pending"),
+  bookingType: bookingTypeEnum("booking_type").default("viewing"),
 
   ...timestampHelper(),
 });
 
 // Property Listing
-export const properties = pgTable("properties", {
+export const property = pgTable("property", {
   id: uuid("id").primaryKey().defaultRandom(),
-  agentId: uuid("agent_id")
-    .references(() => users.id)
+  organisationId: uuid("organisation_id")
+    .references(() => organisation.id)
     .notNull(),
+
   title: text("title").notNull(),
   description: text("description"),
   propertyType: text("property_type")
@@ -104,7 +149,7 @@ export const properties = pgTable("properties", {
 export const propertyImages = pgTable("property_images", {
   id: uuid("id").primaryKey().defaultRandom(),
   propertyId: uuid("property_id")
-    .references(() => properties.id)
+    .references(() => property.id)
     .notNull(),
   imageUrl: text("image_url").notNull(),
   isPrimaryImage: boolean("is_primary_image").default(false),
@@ -117,7 +162,7 @@ export const propertyImages = pgTable("property_images", {
 export const propertyDocuments = pgTable("property_documents", {
   id: uuid("id").primaryKey().defaultRandom(),
   propertyId: uuid("property_id")
-    .references(() => properties.id)
+    .references(() => property.id)
     .notNull(),
   documentType: text("document_type")
     .$type<
@@ -135,47 +180,55 @@ export const propertyDocuments = pgTable("property_documents", {
   ...timestampHelper(),
 });
 
-// TODO: This need to account for times and not just prefferred dates and time slots being generic
-// Viewing Bookings
-export const viewings = pgTable("viewings", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  propertyId: uuid("property_id")
-    .references(() => properties.id)
-    .notNull(),
-  userId: uuid("user_id")
-    .references(() => users.id)
-    .notNull(),
-  preferredDate: date("preferred_date").notNull(),
-  preferredTimeSlot: text("preferred_time_slot")
-    .$type<"morning" | "afternoon" | "evening">()
-    .notNull(),
-  status: text("status")
-    .$type<"pending" | "confirmed" | "completed" | "cancelled">()
-    .default("pending"),
-  notes: text("notes"),
-
-  ...timestampHelper(),
-});
-
-// Relation Definitions
-export const userRelations = relations(users, ({ one, many }) => ({
-  agentProfile: one(agentProfiles, {
-    fields: [users.id],
-    references: [agentProfiles.userId],
-  }),
-  properties: many(properties),
-  viewings: many(viewings),
+export const organisationRelations = relations(organisation, ({ many }) => ({
+  user: many(user),
+  properties: many(property),
 }));
 
-export const propertyRelations = relations(properties, ({ one, many }) => ({
-  // Property information
+export const userRelations = relations(user, ({ one, many }) => ({
+  calendar: one(userCalendar),
+  organisation: one(organisation, {
+    fields: [user.organisationId],
+    references: [organisation.id],
+  }),
+}));
+
+export const userCalendarRelations = relations(
+  userCalendar,
+  ({ one, many }) => ({
+    user: one(user, {
+      fields: [userCalendar.userId],
+      references: [user.id],
+    }),
+
+    bookings: many(booking),
+  }),
+);
+
+export const bookingRelations = relations(booking, ({ one, many }) => ({
+  property: one(property, {
+    fields: [booking.propertyId],
+    references: [property.id],
+  }),
+  destinationCalendar: one(userCalendar, {
+    fields: [booking.destinationCalendarId],
+    references: [userCalendar.id],
+  }),
+  host: one(user, {
+    fields: [booking.hostId],
+    references: [user.id],
+  }),
+
+  attendees: many(user),
+}));
+
+export const propertyRelations = relations(property, ({ one, many }) => ({
   images: many(propertyImages),
   documents: many(propertyDocuments),
+  booking: many(booking),
 
-  // Relating booking / viewing / agent info
-  agent: one(users, {
-    fields: [properties.agentId],
-    references: [users.id],
+  organisation: one(organisation, {
+    fields: [property.organisationId],
+    references: [organisation.id],
   }),
-  viewings: many(viewings),
 }));
