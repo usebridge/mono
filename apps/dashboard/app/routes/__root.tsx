@@ -1,4 +1,4 @@
-import { SidebarInset, SidebarProvider } from "@ho/ui";
+import { SidebarProvider } from "@ho/ui";
 import {
   Outlet,
   ScrollRestoration,
@@ -9,6 +9,7 @@ import type { ReactNode } from "react";
 import { AppSidebar } from "../../components/navbar/navbar";
 
 import CSS from "@ho/ui/globals.css?url";
+import { GlobalCmdInput } from "~/components/global-cmd";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -55,7 +56,10 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <body className="font-inter">
         <SidebarProvider>
           <AppSidebar />
-          <SidebarInset className="p-4">{children}</SidebarInset>
+          <main className="p-4 bg-background flex-1">
+            <GlobalCmdInput />
+            {children}
+          </main>
         </SidebarProvider>
         <ScrollRestoration />
         <Scripts />

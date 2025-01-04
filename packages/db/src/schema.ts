@@ -119,6 +119,21 @@ export const booking = pgTable("booking", {
   ...timestampHelper(),
 });
 
+const propertyStatusEnum = pgEnum("property_status", [
+  "active",
+  "sold",
+  "draft",
+]);
+const propertyTypeEnum = pgEnum("property_type", [
+  "detached",
+  "semi-detached",
+  "terraced",
+  "flat",
+  "bungalow",
+  "other",
+]);
+const saleTypeEnum = pgEnum("sale_type", ["sale", "rent"]);
+
 // Property Listing
 export const property = pgTable("property", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -128,12 +143,8 @@ export const property = pgTable("property", {
 
   title: text("title").notNull(),
   description: text("description"),
-  propertyType: text("property_type")
-    .$type<
-      "detached" | "semi-detached" | "terraced" | "flat" | "bungalow" | "other"
-    >()
-    .notNull(),
-  saleType: text("sale_type").$type<"sale" | "rent">().notNull(),
+  propertyType: propertyTypeEnum("property_type").notNull(),
+  saleType: saleTypeEnum("sale_type").notNull(),
   price: numeric("price", { precision: 12, scale: 2 }).notNull(),
   bedrooms: integer("bedrooms").notNull(),
   bathrooms: integer("bathrooms").notNull(),
@@ -152,9 +163,7 @@ export const property = pgTable("property", {
   energyEfficiencyRating: integer("energy_efficiency_rating"),
 
   // Status and Listing Details
-  status: text("status")
-    .$type<"active" | "sold" | "under_offer" | "draft">()
-    .default("draft"),
+  status: propertyStatusEnum("status").default("draft"),
   dateAvailable: date("date_available"),
 
   ...timestampHelper(),

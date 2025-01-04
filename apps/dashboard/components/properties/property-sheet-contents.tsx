@@ -5,6 +5,7 @@ import {
   Separator,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   Tabs,
@@ -12,15 +13,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@ho/ui";
-import {
-  Bath,
-  Bed,
-  CalendarDays,
-  EllipsisVertical,
-  MoveDiagonal2,
-  Ruler,
-  X,
-} from "lucide-react";
+import { EllipsisVertical, MoveDiagonal2, X } from "lucide-react";
 
 type PropertySheetContentProps = {
   // TODO: Type this correctly
@@ -34,6 +27,7 @@ export function PropertySheetContents({
 }: PropertySheetContentProps) {
   return (
     <SheetContent
+      className="w-2/5 md:max-w-lg h-full flex flex-col"
       showCloseBtn={false}
       onOverlayClick={() => setIsSheetOpen(false)}
     >
@@ -71,120 +65,72 @@ export function PropertySheetContents({
         </SheetHeader>
       </div>
 
-      <Tabs className="mt-5" defaultValue="overview">
+      <Tabs className="mt-5 flex flex-col flex-grow" defaultValue="overview">
         <TabsList className="w-full">
           <TabsTrigger className="w-full" value="overview">
             Overview
           </TabsTrigger>
-          <TabsTrigger className="w-full" value="details">
-            Details
-          </TabsTrigger>
-          {/* TODO: Viewings tab and content that relates to this property */}
           <TabsTrigger className="w-full" value="viewings">
             Viewings
           </TabsTrigger>
         </TabsList>
-        <ScrollArea className="space-y-3">
-          <TabsContent value="overview">
-            <p className="text-muted-foreground">{property?.description}</p>
-            <Separator className="my-3" />
-            <div className="flex gap-2 p-3">
-              <Bed className="h-5 w-5 text-muted-foreground" />
-              <span className="text-sm font-medium">
-                {property?.bedrooms} Beds
-              </span>
+        <TabsContent value="overview" className="flex flex-col pt-3 space-y-6">
+          <p className="text-muted-foreground">{property?.description}</p>
+          <Separator className="my-3" />
+          <div className="grid gap-x-2 md:gap-y-8 sm:gap-y-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
+                Price:
+              </p>
+              <p>£{property?.price.toLocaleString()}</p>
             </div>
-            <div className="flex gap-2 p-3">
-              <Bath className="h-5 w-5 text-muted-foreground" />
-              <span className="text-sm font-medium">
-                {property?.bathrooms} Baths
-              </span>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
+                Sale Type:
+              </p>
+              <p className="capitalize">{property?.saleType}</p>
             </div>
-            <div className="flex gap-2 p-3">
-              <Ruler className="h-5 w-5 text-muted-foreground" />
-              <span className="text-sm font-medium">
-                {property?.squareFootage} sq ft
-              </span>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
+                Property Type:
+              </p>
+              <p className="capitalize">{property?.propertyType}</p>
             </div>
-            <div className="flex gap-2 p-3">
-              <CalendarDays className="h-5 w-5 text-muted-foreground" />
-              <span className="text-sm font-medium">
-                Available{" "}
-                {new Date(property?.dateAvailable ?? "").toLocaleDateString()}
-              </span>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
+                Status:
+              </p>
+              <p className="capitalize">{property?.status}</p>
             </div>
-          </TabsContent>
-          {/* TODO: Align this with the Overview content styles and layout */}
-          <TabsContent value="details" className="px-6 mt-2">
-            <div className="grid gap-6">
-              <div className="grid gap-4">
-                <div className="grid grid-cols-2 gap-x-4 gap-y-3">
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Price
-                    </div>
-                    <div className="font-medium">
-                      £{property?.price.toLocaleString()}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Property Type
-                    </div>
-                    <div className="font-medium capitalize">
-                      {property?.propertyType}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Sale Type
-                    </div>
-                    <div className="font-medium capitalize">
-                      {property?.saleType}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Status
-                    </div>
-                    <Badge
-                      variant={
-                        property?.status === "active" ? "default" : "secondary"
-                      }
-                    >
-                      {property?.status}
-                    </Badge>
-                  </div>
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Energy Rating
-                    </div>
-                    <div className="font-medium">
-                      {property?.energyEfficiencyRating}%
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">
-                      County
-                    </div>
-                    <div className="font-medium">{property?.county}</div>
-                  </div>
-                </div>
-              </div>
-              <Separator />
-              <div className="grid gap-2">
-                <h3 className="font-semibold">Full Address</h3>
-                <div className="text-muted-foreground">
-                  <p>{property?.addressLine1}</p>
-                  {property?.addressLine2 && <p>{property?.addressLine2}</p>}
-                  <p>{property?.city}</p>
-                  <p>{property?.county}</p>
-                  <p>{property?.postcode}</p>
-                </div>
-              </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
+                Bedrooms:
+              </p>
+              <p>{property?.bedrooms}</p>
             </div>
-          </TabsContent>
-        </ScrollArea>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
+                Bathrooms:
+              </p>
+              <p>{property?.bathrooms}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
+                Energy Rating:
+              </p>
+              <p className="capitalize">{property?.energyEfficiencyRating}</p>
+            </div>
+          </div>
+        </TabsContent>
+        <TabsContent
+          value="viewings"
+          className="flex flex-col flex-grow h-full justify-between pt-3 space-y-6"
+        >
+          <div className="flex-1">List of viewings to go in here...</div>
+          <Button variant="outline" className="w-full">
+            New viewing
+          </Button>
+        </TabsContent>
       </Tabs>
     </SheetContent>
   );
