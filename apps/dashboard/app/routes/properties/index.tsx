@@ -18,21 +18,25 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "@ho/ui";
 import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { AlignJustify, Check, Download, Minus } from "lucide-react";
+import { AlignJustify, Check, Download, Minus, Upload } from "lucide-react";
 import { useMemo, useState } from "react";
-import { DataTable } from "../../../components/data-table/data-table";
-import { PropertySheetContents } from "../../../components/properties/property-sheet-contents";
-import { useHotkeys } from "../../../hooks/use-hotkeys";
+import { DataTable } from "~/components/data-table/data-table";
+import { PropertySheetContents } from "~/components/properties/property-sheet-contents";
+import { useHotkeys } from "~/hooks/use-hotkeys";
 
 export const Route = createFileRoute("/properties/")({
   component: RouteComponent,
 });
 
-const MOCK_PROPERTIES = [
+export const MOCK_PROPERTIES = [
   {
     id: "0000-0000-0000-0000",
     agentId: "0000-0000-0000-0000",
@@ -41,10 +45,10 @@ const MOCK_PROPERTIES = [
       "Sivalrid is a property located in the heart of the city. It is a detached house with a large yard and a large backyard. It is located in the heart of the city and is surrounded by other properties.",
     propertyType: "detached",
     saleType: "sale",
-    price: 100000,
+    price: 330000,
     bedrooms: 3,
     bathrooms: 3,
-    squareFootage: 1000,
+    squareFootage: 1200,
     addressLine1: "123 Main St",
     addressLine2: "Suite 100",
     city: "New York",
@@ -54,10 +58,34 @@ const MOCK_PROPERTIES = [
     energyEfficiencyRating: 80,
     status: "active",
     dateAvailable: "2023-01-01",
+    listingDate: "2024-04-23",
+    councilTaxBand: "A",
+  },
+  {
+    id: "0000-0000-0000-0000",
+    agentId: "1111-1111-1111-1111",
+    title: "Didsbury House",
+    description:
+      "Didsbury House is a property located in the heart of the city. It is a detached house with a large yard and a large backyard. It is located in the heart of the city and is surrounded by other properties.",
+    propertyType: "detached",
+    saleType: "sale",
+    price: 330000,
+    bedrooms: 3,
+    bathrooms: 3,
+    squareFootage: 1200,
+    addressLine1: "123 Didsbury Village",
+    addressLine2: "",
+    city: "Manchester",
+    postcode: "ML2 9AA",
+    county: "Greater Manchester",
+    features: ["Garden", "Pool", "Patio"],
+    energyEfficiencyRating: 80,
+    status: "active",
+    dateAvailable: "2025-06-01",
+    listingDate: "2024-04-23",
+    councilTaxBand: "A",
   },
 ];
-
-const DUPLICATED_MOCK_DATA = new Array(10).fill(MOCK_PROPERTIES[0]);
 
 function RouteComponent() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -72,21 +100,16 @@ function RouteComponent() {
     console.log("add property");
   }
 
+  function handleImport() {
+    console.log("import");
+  }
+
   function handleExport() {
     console.log("export");
   }
 
   const columns: ColumnDef<(typeof MOCK_PROPERTIES)[number]>[] = useMemo(
     () => [
-      {
-        accessorKey: "dateAvailable",
-        header: "Available from",
-        cell: ({ getValue }) => (
-          <p className="text-sm text-muted-foreground">
-            {format(getValue() as Date, "dd/MM/yyyy")}
-          </p>
-        ),
-      },
       {
         id: "propertyDetails",
         header: "Property details",
@@ -126,8 +149,8 @@ function RouteComponent() {
           // TODO: Style based on status value
           return (
             <Badge
-              className="py-1 text-xs capitalize text-teal-600"
-              variant="secondary"
+              className="py-1 text-xs capitalize text-primary"
+              variant="outline"
             >
               {rowValues.status}
             </Badge>
@@ -149,6 +172,15 @@ function RouteComponent() {
             </p>
           );
         },
+      },
+      {
+        accessorKey: "dateAvailable",
+        header: "Available from",
+        cell: ({ getValue }) => (
+          <p className="text-sm text-muted-foreground">
+            {format(getValue() as Date, "dd/MM/yyyy")}
+          </p>
+        ),
       },
     ],
     [],
@@ -234,14 +266,34 @@ function RouteComponent() {
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button onClick={handleExport} variant="outline">
-                  <Download />
-                </Button>
+                <TooltipProvider delayDuration={50}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button onClick={handleImport} variant="outline">
+                        <Upload />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Import properties</p>
+                    </TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button onClick={handleExport} variant="outline">
+                        <Download />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Export properties</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
 
             <DataTable
-              data={DUPLICATED_MOCK_DATA}
+              data={MOCK_PROPERTIES}
               columns={columns}
               visibleColumns={visibleColumns}
               // FIX:
@@ -257,11 +309,12 @@ function RouteComponent() {
           <TabsContent value="cards">card content m8</TabsContent>
         </Tabs>
 
-        <PropertySheetContents
-          // @ts-expect-error - fix this later once we have Drizzle/Zero types
-          property={selectedProperty}
-          setIsSheetOpen={setIsSheetOpen}
-        />
+        {selectedProperty && (
+          <PropertySheetContents
+            property={selectedProperty}
+            setIsSheetOpen={setIsSheetOpen}
+          />
+        )}
       </Sheet>
     </>
   );

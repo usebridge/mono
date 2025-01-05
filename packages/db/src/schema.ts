@@ -149,6 +149,8 @@ export const property = pgTable("property", {
   bedrooms: integer("bedrooms").notNull(),
   bathrooms: integer("bathrooms").notNull(),
   squareFootage: numeric("square_footage", { precision: 10, scale: 2 }),
+  tenure: text("tenure"),
+  councilTaxBand: text("council_tax_band"),
 
   // Address Details
   addressLine1: text("address_line1").notNull(),
@@ -165,6 +167,7 @@ export const property = pgTable("property", {
   // Status and Listing Details
   status: propertyStatusEnum("status").default("draft"),
   dateAvailable: date("date_available"),
+  listingDate: date("listing_date"),
 
   ...timestampHelper(),
 });

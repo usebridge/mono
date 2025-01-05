@@ -10,276 +10,364 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as DashboardImport } from "./routes/dashboard";
-import { Route as IndexImport } from "./routes/index";
-import { Route as SettingsIndexImport } from "./routes/settings/index";
-import { Route as PropertiesIndexImport } from "./routes/properties/index";
-import { Route as ClientsIndexImport } from "./routes/clients/index";
-import { Route as CalendarIndexImport } from "./routes/calendar/index";
-import { Route as BookingsIndexImport } from "./routes/bookings/index";
-import { Route as PropertiesPropertyIdIndexImport } from "./routes/properties/$propertyId/index";
-import { Route as ClientsClientIdIndexImport } from "./routes/clients/$clientId/index";
-import { Route as BookingsBookingIdIndexImport } from "./routes/bookings/$bookingId/index";
-import { Route as PropertiesPropertyIdEditImport } from "./routes/properties/$propertyId/edit";
+import { Route as rootRoute } from './routes/__root'
+import { Route as DashboardImport } from './routes/dashboard'
+import { Route as IndexImport } from './routes/index'
+import { Route as SettingsIndexImport } from './routes/settings/index'
+import { Route as PropertiesIndexImport } from './routes/properties/index'
+import { Route as ClientsIndexImport } from './routes/clients/index'
+import { Route as CalendarIndexImport } from './routes/calendar/index'
+import { Route as BookingsIndexImport } from './routes/bookings/index'
+import { Route as SettingsTeamImport } from './routes/settings/team'
+import { Route as SettingsGeneralImport } from './routes/settings/general'
+import { Route as SettingsBillingImport } from './routes/settings/billing'
+import { Route as SettingsAccountImport } from './routes/settings/account'
+import { Route as PropertiesPropertyIdIndexImport } from './routes/properties/$propertyId.index'
+import { Route as ClientsClientIdIndexImport } from './routes/clients/$clientId.index'
+import { Route as BookingsBookingIdIndexImport } from './routes/bookings/$bookingId.index'
+import { Route as PropertiesPropertyIdEditImport } from './routes/properties/$propertyId.edit'
 
 // Create/Update Routes
 
 const DashboardRoute = DashboardImport.update({
-  id: "/dashboard",
-  path: "/dashboard",
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const SettingsIndexRoute = SettingsIndexImport.update({
-  id: "/settings/",
-  path: "/settings/",
+  id: '/settings/',
+  path: '/settings/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const PropertiesIndexRoute = PropertiesIndexImport.update({
-  id: "/properties/",
-  path: "/properties/",
+  id: '/properties/',
+  path: '/properties/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const ClientsIndexRoute = ClientsIndexImport.update({
-  id: "/clients/",
-  path: "/clients/",
+  id: '/clients/',
+  path: '/clients/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const CalendarIndexRoute = CalendarIndexImport.update({
-  id: "/calendar/",
-  path: "/calendar/",
+  id: '/calendar/',
+  path: '/calendar/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const BookingsIndexRoute = BookingsIndexImport.update({
-  id: "/bookings/",
-  path: "/bookings/",
+  id: '/bookings/',
+  path: '/bookings/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
+
+const SettingsTeamRoute = SettingsTeamImport.update({
+  id: '/settings/team',
+  path: '/settings/team',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SettingsGeneralRoute = SettingsGeneralImport.update({
+  id: '/settings/general',
+  path: '/settings/general',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SettingsBillingRoute = SettingsBillingImport.update({
+  id: '/settings/billing',
+  path: '/settings/billing',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SettingsAccountRoute = SettingsAccountImport.update({
+  id: '/settings/account',
+  path: '/settings/account',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PropertiesPropertyIdIndexRoute = PropertiesPropertyIdIndexImport.update({
-  id: "/properties/$propertyId/",
-  path: "/properties/$propertyId/",
+  id: '/properties/$propertyId/',
+  path: '/properties/$propertyId/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const ClientsClientIdIndexRoute = ClientsClientIdIndexImport.update({
-  id: "/clients/$clientId/",
-  path: "/clients/$clientId/",
+  id: '/clients/$clientId/',
+  path: '/clients/$clientId/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const BookingsBookingIdIndexRoute = BookingsBookingIdIndexImport.update({
-  id: "/bookings/$bookingId/",
-  path: "/bookings/$bookingId/",
+  id: '/bookings/$bookingId/',
+  path: '/bookings/$bookingId/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const PropertiesPropertyIdEditRoute = PropertiesPropertyIdEditImport.update({
-  id: "/properties/$propertyId/edit",
-  path: "/properties/$propertyId/edit",
+  id: '/properties/$propertyId/edit',
+  path: '/properties/$propertyId/edit',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/dashboard": {
-      id: "/dashboard";
-      path: "/dashboard";
-      fullPath: "/dashboard";
-      preLoaderRoute: typeof DashboardImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/bookings/": {
-      id: "/bookings/";
-      path: "/bookings";
-      fullPath: "/bookings";
-      preLoaderRoute: typeof BookingsIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/calendar/": {
-      id: "/calendar/";
-      path: "/calendar";
-      fullPath: "/calendar";
-      preLoaderRoute: typeof CalendarIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/clients/": {
-      id: "/clients/";
-      path: "/clients";
-      fullPath: "/clients";
-      preLoaderRoute: typeof ClientsIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/properties/": {
-      id: "/properties/";
-      path: "/properties";
-      fullPath: "/properties";
-      preLoaderRoute: typeof PropertiesIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/settings/": {
-      id: "/settings/";
-      path: "/settings";
-      fullPath: "/settings";
-      preLoaderRoute: typeof SettingsIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/properties/$propertyId/edit": {
-      id: "/properties/$propertyId/edit";
-      path: "/properties/$propertyId/edit";
-      fullPath: "/properties/$propertyId/edit";
-      preLoaderRoute: typeof PropertiesPropertyIdEditImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/bookings/$bookingId/": {
-      id: "/bookings/$bookingId/";
-      path: "/bookings/$bookingId";
-      fullPath: "/bookings/$bookingId";
-      preLoaderRoute: typeof BookingsBookingIdIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/clients/$clientId/": {
-      id: "/clients/$clientId/";
-      path: "/clients/$clientId";
-      fullPath: "/clients/$clientId";
-      preLoaderRoute: typeof ClientsClientIdIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/properties/$propertyId/": {
-      id: "/properties/$propertyId/";
-      path: "/properties/$propertyId";
-      fullPath: "/properties/$propertyId";
-      preLoaderRoute: typeof PropertiesPropertyIdIndexImport;
-      parentRoute: typeof rootRoute;
-    };
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardImport
+      parentRoute: typeof rootRoute
+    }
+    '/settings/account': {
+      id: '/settings/account'
+      path: '/settings/account'
+      fullPath: '/settings/account'
+      preLoaderRoute: typeof SettingsAccountImport
+      parentRoute: typeof rootRoute
+    }
+    '/settings/billing': {
+      id: '/settings/billing'
+      path: '/settings/billing'
+      fullPath: '/settings/billing'
+      preLoaderRoute: typeof SettingsBillingImport
+      parentRoute: typeof rootRoute
+    }
+    '/settings/general': {
+      id: '/settings/general'
+      path: '/settings/general'
+      fullPath: '/settings/general'
+      preLoaderRoute: typeof SettingsGeneralImport
+      parentRoute: typeof rootRoute
+    }
+    '/settings/team': {
+      id: '/settings/team'
+      path: '/settings/team'
+      fullPath: '/settings/team'
+      preLoaderRoute: typeof SettingsTeamImport
+      parentRoute: typeof rootRoute
+    }
+    '/bookings/': {
+      id: '/bookings/'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof BookingsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/calendar/': {
+      id: '/calendar/'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/clients/': {
+      id: '/clients/'
+      path: '/clients'
+      fullPath: '/clients'
+      preLoaderRoute: typeof ClientsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/properties/': {
+      id: '/properties/'
+      path: '/properties'
+      fullPath: '/properties'
+      preLoaderRoute: typeof PropertiesIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/properties/$propertyId/edit': {
+      id: '/properties/$propertyId/edit'
+      path: '/properties/$propertyId/edit'
+      fullPath: '/properties/$propertyId/edit'
+      preLoaderRoute: typeof PropertiesPropertyIdEditImport
+      parentRoute: typeof rootRoute
+    }
+    '/bookings/$bookingId/': {
+      id: '/bookings/$bookingId/'
+      path: '/bookings/$bookingId'
+      fullPath: '/bookings/$bookingId'
+      preLoaderRoute: typeof BookingsBookingIdIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/clients/$clientId/': {
+      id: '/clients/$clientId/'
+      path: '/clients/$clientId'
+      fullPath: '/clients/$clientId'
+      preLoaderRoute: typeof ClientsClientIdIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/properties/$propertyId/': {
+      id: '/properties/$propertyId/'
+      path: '/properties/$propertyId'
+      fullPath: '/properties/$propertyId'
+      preLoaderRoute: typeof PropertiesPropertyIdIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/dashboard": typeof DashboardRoute;
-  "/bookings": typeof BookingsIndexRoute;
-  "/calendar": typeof CalendarIndexRoute;
-  "/clients": typeof ClientsIndexRoute;
-  "/properties": typeof PropertiesIndexRoute;
-  "/settings": typeof SettingsIndexRoute;
-  "/properties/$propertyId/edit": typeof PropertiesPropertyIdEditRoute;
-  "/bookings/$bookingId": typeof BookingsBookingIdIndexRoute;
-  "/clients/$clientId": typeof ClientsClientIdIndexRoute;
-  "/properties/$propertyId": typeof PropertiesPropertyIdIndexRoute;
+  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/settings/account': typeof SettingsAccountRoute
+  '/settings/billing': typeof SettingsBillingRoute
+  '/settings/general': typeof SettingsGeneralRoute
+  '/settings/team': typeof SettingsTeamRoute
+  '/bookings': typeof BookingsIndexRoute
+  '/calendar': typeof CalendarIndexRoute
+  '/clients': typeof ClientsIndexRoute
+  '/properties': typeof PropertiesIndexRoute
+  '/settings': typeof SettingsIndexRoute
+  '/properties/$propertyId/edit': typeof PropertiesPropertyIdEditRoute
+  '/bookings/$bookingId': typeof BookingsBookingIdIndexRoute
+  '/clients/$clientId': typeof ClientsClientIdIndexRoute
+  '/properties/$propertyId': typeof PropertiesPropertyIdIndexRoute
 }
 
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/dashboard": typeof DashboardRoute;
-  "/bookings": typeof BookingsIndexRoute;
-  "/calendar": typeof CalendarIndexRoute;
-  "/clients": typeof ClientsIndexRoute;
-  "/properties": typeof PropertiesIndexRoute;
-  "/settings": typeof SettingsIndexRoute;
-  "/properties/$propertyId/edit": typeof PropertiesPropertyIdEditRoute;
-  "/bookings/$bookingId": typeof BookingsBookingIdIndexRoute;
-  "/clients/$clientId": typeof ClientsClientIdIndexRoute;
-  "/properties/$propertyId": typeof PropertiesPropertyIdIndexRoute;
+  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/settings/account': typeof SettingsAccountRoute
+  '/settings/billing': typeof SettingsBillingRoute
+  '/settings/general': typeof SettingsGeneralRoute
+  '/settings/team': typeof SettingsTeamRoute
+  '/bookings': typeof BookingsIndexRoute
+  '/calendar': typeof CalendarIndexRoute
+  '/clients': typeof ClientsIndexRoute
+  '/properties': typeof PropertiesIndexRoute
+  '/settings': typeof SettingsIndexRoute
+  '/properties/$propertyId/edit': typeof PropertiesPropertyIdEditRoute
+  '/bookings/$bookingId': typeof BookingsBookingIdIndexRoute
+  '/clients/$clientId': typeof ClientsClientIdIndexRoute
+  '/properties/$propertyId': typeof PropertiesPropertyIdIndexRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/": typeof IndexRoute;
-  "/dashboard": typeof DashboardRoute;
-  "/bookings/": typeof BookingsIndexRoute;
-  "/calendar/": typeof CalendarIndexRoute;
-  "/clients/": typeof ClientsIndexRoute;
-  "/properties/": typeof PropertiesIndexRoute;
-  "/settings/": typeof SettingsIndexRoute;
-  "/properties/$propertyId/edit": typeof PropertiesPropertyIdEditRoute;
-  "/bookings/$bookingId/": typeof BookingsBookingIdIndexRoute;
-  "/clients/$clientId/": typeof ClientsClientIdIndexRoute;
-  "/properties/$propertyId/": typeof PropertiesPropertyIdIndexRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/settings/account': typeof SettingsAccountRoute
+  '/settings/billing': typeof SettingsBillingRoute
+  '/settings/general': typeof SettingsGeneralRoute
+  '/settings/team': typeof SettingsTeamRoute
+  '/bookings/': typeof BookingsIndexRoute
+  '/calendar/': typeof CalendarIndexRoute
+  '/clients/': typeof ClientsIndexRoute
+  '/properties/': typeof PropertiesIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/properties/$propertyId/edit': typeof PropertiesPropertyIdEditRoute
+  '/bookings/$bookingId/': typeof BookingsBookingIdIndexRoute
+  '/clients/$clientId/': typeof ClientsClientIdIndexRoute
+  '/properties/$propertyId/': typeof PropertiesPropertyIdIndexRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | "/"
-    | "/dashboard"
-    | "/bookings"
-    | "/calendar"
-    | "/clients"
-    | "/properties"
-    | "/settings"
-    | "/properties/$propertyId/edit"
-    | "/bookings/$bookingId"
-    | "/clients/$clientId"
-    | "/properties/$propertyId";
-  fileRoutesByTo: FileRoutesByTo;
+    | '/'
+    | '/dashboard'
+    | '/settings/account'
+    | '/settings/billing'
+    | '/settings/general'
+    | '/settings/team'
+    | '/bookings'
+    | '/calendar'
+    | '/clients'
+    | '/properties'
+    | '/settings'
+    | '/properties/$propertyId/edit'
+    | '/bookings/$bookingId'
+    | '/clients/$clientId'
+    | '/properties/$propertyId'
+  fileRoutesByTo: FileRoutesByTo
   to:
-    | "/"
-    | "/dashboard"
-    | "/bookings"
-    | "/calendar"
-    | "/clients"
-    | "/properties"
-    | "/settings"
-    | "/properties/$propertyId/edit"
-    | "/bookings/$bookingId"
-    | "/clients/$clientId"
-    | "/properties/$propertyId";
+    | '/'
+    | '/dashboard'
+    | '/settings/account'
+    | '/settings/billing'
+    | '/settings/general'
+    | '/settings/team'
+    | '/bookings'
+    | '/calendar'
+    | '/clients'
+    | '/properties'
+    | '/settings'
+    | '/properties/$propertyId/edit'
+    | '/bookings/$bookingId'
+    | '/clients/$clientId'
+    | '/properties/$propertyId'
   id:
-    | "__root__"
-    | "/"
-    | "/dashboard"
-    | "/bookings/"
-    | "/calendar/"
-    | "/clients/"
-    | "/properties/"
-    | "/settings/"
-    | "/properties/$propertyId/edit"
-    | "/bookings/$bookingId/"
-    | "/clients/$clientId/"
-    | "/properties/$propertyId/";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/settings/account'
+    | '/settings/billing'
+    | '/settings/general'
+    | '/settings/team'
+    | '/bookings/'
+    | '/calendar/'
+    | '/clients/'
+    | '/properties/'
+    | '/settings/'
+    | '/properties/$propertyId/edit'
+    | '/bookings/$bookingId/'
+    | '/clients/$clientId/'
+    | '/properties/$propertyId/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  DashboardRoute: typeof DashboardRoute;
-  BookingsIndexRoute: typeof BookingsIndexRoute;
-  CalendarIndexRoute: typeof CalendarIndexRoute;
-  ClientsIndexRoute: typeof ClientsIndexRoute;
-  PropertiesIndexRoute: typeof PropertiesIndexRoute;
-  SettingsIndexRoute: typeof SettingsIndexRoute;
-  PropertiesPropertyIdEditRoute: typeof PropertiesPropertyIdEditRoute;
-  BookingsBookingIdIndexRoute: typeof BookingsBookingIdIndexRoute;
-  ClientsClientIdIndexRoute: typeof ClientsClientIdIndexRoute;
-  PropertiesPropertyIdIndexRoute: typeof PropertiesPropertyIdIndexRoute;
+  IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  SettingsAccountRoute: typeof SettingsAccountRoute
+  SettingsBillingRoute: typeof SettingsBillingRoute
+  SettingsGeneralRoute: typeof SettingsGeneralRoute
+  SettingsTeamRoute: typeof SettingsTeamRoute
+  BookingsIndexRoute: typeof BookingsIndexRoute
+  CalendarIndexRoute: typeof CalendarIndexRoute
+  ClientsIndexRoute: typeof ClientsIndexRoute
+  PropertiesIndexRoute: typeof PropertiesIndexRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
+  PropertiesPropertyIdEditRoute: typeof PropertiesPropertyIdEditRoute
+  BookingsBookingIdIndexRoute: typeof BookingsBookingIdIndexRoute
+  ClientsClientIdIndexRoute: typeof ClientsClientIdIndexRoute
+  PropertiesPropertyIdIndexRoute: typeof PropertiesPropertyIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
+  SettingsAccountRoute: SettingsAccountRoute,
+  SettingsBillingRoute: SettingsBillingRoute,
+  SettingsGeneralRoute: SettingsGeneralRoute,
+  SettingsTeamRoute: SettingsTeamRoute,
   BookingsIndexRoute: BookingsIndexRoute,
   CalendarIndexRoute: CalendarIndexRoute,
   ClientsIndexRoute: ClientsIndexRoute,
@@ -289,11 +377,11 @@ const rootRouteChildren: RootRouteChildren = {
   BookingsBookingIdIndexRoute: BookingsBookingIdIndexRoute,
   ClientsClientIdIndexRoute: ClientsClientIdIndexRoute,
   PropertiesPropertyIdIndexRoute: PropertiesPropertyIdIndexRoute,
-};
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -303,6 +391,10 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/dashboard",
+        "/settings/account",
+        "/settings/billing",
+        "/settings/general",
+        "/settings/team",
         "/bookings/",
         "/calendar/",
         "/clients/",
@@ -320,6 +412,18 @@ export const routeTree = rootRoute
     "/dashboard": {
       "filePath": "dashboard.tsx"
     },
+    "/settings/account": {
+      "filePath": "settings/account.tsx"
+    },
+    "/settings/billing": {
+      "filePath": "settings/billing.tsx"
+    },
+    "/settings/general": {
+      "filePath": "settings/general.tsx"
+    },
+    "/settings/team": {
+      "filePath": "settings/team.tsx"
+    },
     "/bookings/": {
       "filePath": "bookings/index.tsx"
     },
@@ -336,16 +440,16 @@ export const routeTree = rootRoute
       "filePath": "settings/index.tsx"
     },
     "/properties/$propertyId/edit": {
-      "filePath": "properties/$propertyId/edit.tsx"
+      "filePath": "properties/$propertyId.edit.tsx"
     },
     "/bookings/$bookingId/": {
-      "filePath": "bookings/$bookingId/index.tsx"
+      "filePath": "bookings/$bookingId.index.tsx"
     },
     "/clients/$clientId/": {
-      "filePath": "clients/$clientId/index.tsx"
+      "filePath": "clients/$clientId.index.tsx"
     },
     "/properties/$propertyId/": {
-      "filePath": "properties/$propertyId/index.tsx"
+      "filePath": "properties/$propertyId.index.tsx"
     }
   }
 }

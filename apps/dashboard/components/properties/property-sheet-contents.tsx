@@ -1,24 +1,26 @@
 import {
-  Badge,
   Button,
-  ScrollArea,
   Separator,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
+  buttonVariants,
 } from "@ho/ui";
+import { Link } from "@tanstack/react-router";
+import { format } from "date-fns";
 import { EllipsisVertical, MoveDiagonal2, X } from "lucide-react";
+import type { MOCK_PROPERTIES } from "~/app/routes/properties";
 
 type PropertySheetContentProps = {
   // TODO: Type this correctly
-  property: Record<string, any>;
+  property: (typeof MOCK_PROPERTIES)[0];
   setIsSheetOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onUnmount?: () => void;
 };
 
 export function PropertySheetContents({
@@ -31,13 +33,18 @@ export function PropertySheetContents({
       showCloseBtn={false}
       onOverlayClick={() => setIsSheetOpen(false)}
     >
-      <div className="flex gap-2 justify-between items-center mb-4">
+      <div className="flex gap-2 justify-between items-center">
         <h4 className="text-lg">Property details</h4>
 
         <div className="flex gap-2 items-center">
-          <Button variant="ghost" size="icon">
+          <Link
+            to="/properties/$propertyId"
+            params={{ propertyId: property.id }}
+            preload="render"
+            className={buttonVariants({ variant: "ghost", size: "icon" })}
+          >
             <MoveDiagonal2 />
-          </Button>
+          </Link>
           <Button variant="ghost" size="icon">
             <EllipsisVertical />
           </Button>
@@ -58,14 +65,14 @@ export function PropertySheetContents({
           className="w-24 h-24 rounded-lg object-cover"
         />
         <SheetHeader className="space-y-0">
-          <SheetTitle className="my-0">{property?.title}</SheetTitle>
+          <SheetTitle className="my-0">{property.title}</SheetTitle>
           <SheetDescription>
-            {property?.addressLine1}, {property?.city}, {property?.postcode}
+            {property.addressLine1}, {property.city}, {property.postcode}
           </SheetDescription>
         </SheetHeader>
       </div>
 
-      <Tabs className="mt-5 flex flex-col flex-grow" defaultValue="overview">
+      <Tabs className="flex flex-col flex-grow" defaultValue="overview">
         <TabsList className="w-full">
           <TabsTrigger className="w-full" value="overview">
             Overview
@@ -73,52 +80,78 @@ export function PropertySheetContents({
           <TabsTrigger className="w-full" value="viewings">
             Viewings
           </TabsTrigger>
+          <TabsTrigger className="w-full" value="documents">
+            Documents
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="overview" className="flex flex-col pt-3 space-y-6">
-          <p className="text-muted-foreground">{property?.description}</p>
+          <p className="text-muted-foreground">{property.description}</p>
           <Separator className="my-3" />
           <div className="grid gap-x-2 md:gap-y-8 sm:gap-y-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
             <div>
               <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
                 Price:
               </p>
-              <p>£{property?.price.toLocaleString()}</p>
+              <p>£{property.price.toLocaleString()}</p>
+            </div>
+
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
+                Listing Date:
+              </p>
+              <p className="capitalize">
+                {format(property.listingDate, "dd/MM/yyyy")}
+              </p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
-                Sale Type:
+                Available from:
               </p>
-              <p className="capitalize">{property?.saleType}</p>
+              <p className="capitalize">
+                {format(property.dateAvailable, "dd/MM/yyyy")}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
+                Listing Type:
+              </p>
+              <p className="capitalize">{property.saleType}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
                 Property Type:
               </p>
-              <p className="capitalize">{property?.propertyType}</p>
+              <p className="capitalize">{property.propertyType}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
-                Status:
+                Council Tax Band:
               </p>
-              <p className="capitalize">{property?.status}</p>
+              <p className="capitalize">{property.councilTaxBand}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
                 Bedrooms:
               </p>
-              <p>{property?.bedrooms}</p>
+              <p>{property.bedrooms}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
                 Bathrooms:
               </p>
-              <p>{property?.bathrooms}</p>
+              <p>{property.bathrooms}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
                 Energy Rating:
               </p>
-              <p className="capitalize">{property?.energyEfficiencyRating}</p>
+              <p className="capitalize">{property.energyEfficiencyRating}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-mono uppercase">
+                Square Footage:
+              </p>
+              <p className="capitalize">{property.squareFootage}</p>
             </div>
           </div>
         </TabsContent>

@@ -1,4 +1,14 @@
-import type * as React from "react";
+import {
+  LogoLight,
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarSeparator,
+} from "@ho/ui";
+import type { LinkOptions } from "@tanstack/react-router";
 import {
   Boxes,
   Calendar,
@@ -9,21 +19,28 @@ import {
   Send,
   Settings2,
 } from "lucide-react";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
-  LogoLight,
-  SidebarSeparator,
-} from "@ho/ui";
+import type * as React from "react";
 import { NavMain } from "./nav-main";
 import { NavSecondary } from "./nav-secondary";
 import { NavUser } from "./nav-user";
 
-const data = {
+type NavData = {
+  navMain: {
+    title: string;
+    url: LinkOptions["to"];
+    icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+    isActive?: boolean;
+    items?: NavData["navMain"];
+  }[];
+  navSecondary: {
+    title: string;
+    // TODO: Would be nice for this to still allow intellisense on URLs in our app
+    url: LinkOptions["to"] | string;
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  }[];
+};
+
+const data: NavData = {
   navMain: [
     {
       title: "Dashboard",
@@ -53,24 +70,24 @@ const data = {
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: Settings2,
       items: [
         {
           title: "General",
-          url: "#",
+          url: "/settings/general",
+        },
+        {
+          title: "Account",
+          url: "/settings/account",
         },
         {
           title: "Team",
-          url: "#",
+          url: "/settings/team",
         },
         {
           title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          url: "/settings/billing",
         },
       ],
     },
@@ -82,7 +99,7 @@ const data = {
       icon: Github,
     },
     {
-      title: "Contact",
+      title: "Support",
       url: "mailto:support@usebridge.co.uk",
       icon: Send,
     },
