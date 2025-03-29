@@ -5,6 +5,9 @@ export default defineConfig({
   tsr: {
     appDirectory: "./app",
   },
+  server: {
+    preset: "vercel",
+  },
   vite: {
     optimizeDeps: {
       force: true,
