@@ -1,10 +1,4 @@
 import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  type ColumnDef,
-} from "@tanstack/react-table";
-import {
   Table,
   TableBody,
   TableCell,
@@ -12,6 +6,12 @@ import {
   TableHeader,
   TableRow,
 } from "@ho/ui";
+import {
+  type ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
 type Props<TData, TColumns extends ColumnDef<TData>> = {
   data: TData[];
@@ -42,6 +42,7 @@ export function DataTable<TData, TColumns extends ColumnDef<TData>>({
       columnVisibility: visibleColumns,
     },
     getCoreRowModel: getCoreRowModel(),
+    // @ts-expect-error - TODO: fix this later
     onColumnVisibilityChange: setVisibleColumns,
   });
 

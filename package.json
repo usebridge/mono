@@ -6,16 +6,24 @@
   "workspaces": ["packages/*", "apps/*"],
   "scripts": {
     "dev": "turbo dev",
+    "dev:dashboard": "turbo dev --filter=@ho/dashboard",
+    "dev:website": "turbo dev --filter=@ho/website",
+    "dev:zero-cache": "turbo dev:zero-cache --filter=@ho/db",
+    "dev:db-up": "turbo dev:db-up --filter=@ho/db",
+    "dev:db-down": "turbo dev:db-down --filter=@ho/db",
+    "dev:db-migrate": "turbo dev:db-migrate --filter=@ho/db",
     "build": "turbo run build",
     "format": "biome format --write .",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
-    "create-package": "sh ./create-package.sh"
+    "create-package": "sh ./create-package.sh",
+    "nuke": "rm -rf node_modules && rm -rf .turbo && rm -rf apps/*/node_modules && rm -rf packages/*/node_modules"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "turbo": "^2.1.3",
     "typescript": "^5.7.2"
   },
+  "trustedDependencies": ["@rocicorp/zero-sqlite3"],
   "packageManager": "bun@1.1.31"
 }

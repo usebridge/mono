@@ -1,4 +1,5 @@
 import { SidebarProvider } from "@ho/ui";
+import CSS from "@ho/ui/globals.css?url";
 import {
   Outlet,
   ScrollRestoration,
@@ -6,10 +7,8 @@ import {
 } from "@tanstack/react-router";
 import { Meta, Scripts } from "@tanstack/start";
 import type { ReactNode } from "react";
-import { AppSidebar } from "../../components/navbar/navbar";
-
-import CSS from "@ho/ui/globals.css?url";
 import { GlobalCmdInput } from "~/components/global-cmd";
+import { AppSidebar } from "../../components/navbar/navbar";
 
 export const Route = createRootRoute({
   head: () => ({

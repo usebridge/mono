@@ -20,5 +20,11 @@
         "noNonNullAssertion": "off"
       }
     }
+  },
+  "files": {
+    "ignore": [
+      "./apps/dashboard/**/routeTree.gen.ts",
+      "./packages/zero-schema/src/index.js"
+    ]
   }
 }

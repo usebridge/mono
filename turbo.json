@@ -6,6 +6,25 @@
       "persistent": true,
       "cache": false
     },
+    "dev:dashboard": {
+      "cache": false
+    },
+    "dev:website": {
+      "cache": false
+    },
+    "dev:zero-cache": {
+      "cache": false
+    },
+    "dev:db-up": {
+      "cache": false
+    },
+    "dev:db-down": {
+      "cache": false
+    },
+    "dev:db-migrate": {
+      "dependsOn": ["^dev:db-up"],
+      "cache": false
+    },
     "format": {},
     "lint": {},
     "typecheck": {

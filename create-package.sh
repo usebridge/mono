@@ -12,7 +12,7 @@ mkdir -p ./packages/$package_name
 # Create the package.json file
 cat > ./packages/$package_name/package.json <<EOF
 {
-  "name": "@bridge/$package_name",
+  "name": "@ho/$package_name",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -21,8 +21,9 @@ cat > ./packages/$package_name/package.json <<EOF
     "lint": "biome lint",
     "typecheck": "biome typecheck"
   },
-  "dependencies": {
-    "dotenv": "^16.4.5"
+  "devDependencies": {
+    "@types/bun": "latest",
+    "dotenv-cli": "^7.3.0",
   },
   "peerDependencies": {
     "typescript": "^5.0.4"

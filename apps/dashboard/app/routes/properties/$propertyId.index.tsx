@@ -6,10 +6,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
 } from "@ho/ui";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { format } from "date-fns";
@@ -23,6 +19,7 @@ import {
   Share,
   SquareStack,
 } from "lucide-react";
+import { DATE_FORMAT } from "~/utils/consts";
 import { MOCK_PROPERTIES } from ".";
 
 export const Route = createFileRoute("/properties/$propertyId/")({
@@ -120,7 +117,8 @@ function RouteComponent() {
           </div>
           <div>
             <p className="font-thin text-sm text-muted-foreground">
-              Date listed {format(new Date(property.listingDate), "dd/MM/yyyy")}
+              Date listed{" "}
+              {format(new Date(property.listingDate), DATE_FORMAT.date)}
             </p>
           </div>
         </div>
@@ -135,27 +133,27 @@ function RouteComponent() {
 
           <div className="space-y-2">
             <h3 className="text-lg font-bold">Notable features</h3>
-            <div className="flex gap-8 items-center">
+            <div className="grid gap-2 grid-cols-4 items-center font-thin">
               <div className="flex gap-2 items-center">
-                <House size={20} />
+                <House size={16} />
                 <p className="text-secondary-foreground capitalize">
                   {property.propertyType}
                 </p>
               </div>
               <div className="flex gap-2 items-center">
-                <BedDouble size={20} />
+                <BedDouble size={16} />
                 <p className="text-secondary-foreground">
                   {property.bedrooms} bedrooms
                 </p>
               </div>
               <div className="flex gap-2 items-center">
-                <Bath size={20} />
+                <Bath size={16} />
                 <p className="text-secondary-foreground">
                   {property.bathrooms} bedrooms
                 </p>
               </div>
               <div className="flex gap-2 items-center">
-                <SquareStack size={20} />
+                <SquareStack size={16} />
                 <p className="text-secondary-foreground">
                   {property.squareFootage} square feet
                 </p>
@@ -163,7 +161,7 @@ function RouteComponent() {
             </div>
           </div>
 
-          <div>
+          <div className="grid gap-2 grid-cols-4">
             {property.features.map((feature) => (
               <div className="flex gap-2 items-center" key={feature}>
                 <ArrowRight size={16} />

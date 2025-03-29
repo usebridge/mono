@@ -25,7 +25,7 @@ const timestampHelper = () => ({
 });
 
 // TODO: Implement "feedback" table that users can provide feedback from
-//
+
 // TODO: Consider users that don't belong to an organisation and are just going to be viewing
 // properties and not managing them
 
@@ -67,7 +67,7 @@ export const user = pgTable("users", {
   description: text("description"),
   phoneNumber: text("phone_number"),
   avatarUrl: text("avatar_url"),
-  role: userPermissionEnum("role"),
+  role: userPermissionEnum(),
 
   isVerified: boolean("is_verified").default(false),
   lastLogin: timestamp("last_login"),
@@ -79,7 +79,7 @@ export const user = pgTable("users", {
 export const userCalendar = pgTable(
   "user_calendar",
   {
-    id: uuid("id").defaultRandom(),
+    id: uuid("id").primaryKey().defaultRandom(),
     userId: uuid("user_id").references(() => user.id),
 
     ...timestampHelper(),
@@ -87,13 +87,18 @@ export const userCalendar = pgTable(
   (table) => [{ pk: primaryKey({ columns: [table.id, table.userId] }) }],
 );
 
-const statusEnum = pgEnum("status", [
+export const statusEnum = pgEnum("status", [
   "pending",
   "confirmed",
   "completed",
   "cancelled",
 ]);
-const bookingTypeEnum = pgEnum("booking_type", ["viewing", "meeting", "other"]);
+
+export const bookingTypeEnum = pgEnum("booking_type", [
+  "viewing",
+  "meeting",
+  "other",
+]);
 
 export const booking = pgTable("booking", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -102,29 +107,54 @@ export const booking = pgTable("booking", {
     .references(() => userCalendar.id)
     .notNull(),
   hostId: uuid("host_id").references(() => user.id),
+  enquiryId: uuid("enquiry_id").references(() => enquiry.id),
 
   title: text("title").notNull(),
   description: text("description"),
 
   date: date("date").notNull(),
-  startTime: date("date").notNull(),
-  endTime: date("date").notNull(),
+  startTime: date("start_time").notNull(),
+  endTime: date("end_time").notNull(),
   notes: text("notes"),
 
   responses: json("responses").$type<{ userId: string; response: string }[]>(),
 
-  status: statusEnum("status").default("pending"),
-  bookingType: bookingTypeEnum("booking_type").default("viewing"),
+  status: statusEnum().default("pending"),
+  bookingType: bookingTypeEnum().default("viewing"),
 
   ...timestampHelper(),
 });
 
-const propertyStatusEnum = pgEnum("property_status", [
+export const enquiryStatusEnum = pgEnum("enquiry_status", [
+  "pending",
+  "answered",
+]);
+
+// In this context an enquiry is made prior to a booking if enabled
+// by the organisation/host. If bookings aren't allowed by default an
+// enquiry must be made prior to a property being booked for a viewing.
+export const enquiry = pgTable("enquiry", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  propertyId: uuid("property_id").references(() => property.id),
+  userId: uuid("user_id").references(() => user.id),
+
+  enquiryType: text("enquiry_type").notNull(),
+  enquiryDetails: text("enquiry_details"),
+  status: enquiryStatusEnum().default("pending"),
+
+  ...timestampHelper(),
+});
+
+export const propertyStatusEnum = pgEnum("property_status", [
   "active",
   "sold",
+  // TODO: This might be better renamed but for now this can work for both
+  // future renting use cases and typical sales?
+  "agreed",
   "draft",
 ]);
-const propertyTypeEnum = pgEnum("property_type", [
+
+export const propertyTypeEnum = pgEnum("property_type", [
   "detached",
   "semi-detached",
   "terraced",
@@ -132,7 +162,8 @@ const propertyTypeEnum = pgEnum("property_type", [
   "bungalow",
   "other",
 ]);
-const saleTypeEnum = pgEnum("sale_type", ["sale", "rent"]);
+
+export const saleTypeEnum = pgEnum("sale_type", ["sale", "rent"]);
 
 // Property Listing
 export const property = pgTable("property", {
@@ -143,8 +174,8 @@ export const property = pgTable("property", {
 
   title: text("title").notNull(),
   description: text("description"),
-  propertyType: propertyTypeEnum("property_type").notNull(),
-  saleType: saleTypeEnum("sale_type").notNull(),
+  propertyType: propertyTypeEnum().notNull(),
+  saleType: saleTypeEnum().notNull(),
   price: numeric("price", { precision: 12, scale: 2 }).notNull(),
   bedrooms: integer("bedrooms").notNull(),
   bathrooms: integer("bathrooms").notNull(),
@@ -161,11 +192,10 @@ export const property = pgTable("property", {
 
   // Property Features
   features: jsonb("features").$type<string[]>(),
-  // TODO: This should be an enum right?
-  energyEfficiencyRating: integer("energy_efficiency_rating"),
+  energyEfficiencyRating: text("energy_efficiency_rating"),
 
   // Status and Listing Details
-  status: propertyStatusEnum("status").default("draft"),
+  status: propertyStatusEnum().default("draft"),
   dateAvailable: date("date_available"),
   listingDate: date("listing_date"),
 
@@ -202,6 +232,7 @@ export const propertyDocuments = pgTable("property_documents", {
       | "purchase_order"
     >()
     .notNull(),
+  // TODO: Figure out S3/R2 storage for documents
   documentUrl: text("document_url").notNull(),
 
   ...timestampHelper(),
@@ -212,12 +243,14 @@ export const organisationRelations = relations(organisation, ({ many }) => ({
   properties: many(property),
 }));
 
-export const userRelations = relations(user, ({ one }) => ({
+export const userRelations = relations(user, ({ one, many }) => ({
   calendar: one(userCalendar),
   organisation: one(organisation, {
     fields: [user.organisationId],
     references: [organisation.id],
   }),
+
+  enquiries: many(enquiry),
 }));
 
 export const userCalendarRelations = relations(
@@ -232,7 +265,7 @@ export const userCalendarRelations = relations(
   }),
 );
 
-export const bookingRelations = relations(booking, ({ one, many }) => ({
+export const bookingRelations = relations(booking, ({ one }) => ({
   property: one(property, {
     fields: [booking.propertyId],
     references: [property.id],
@@ -245,17 +278,20 @@ export const bookingRelations = relations(booking, ({ one, many }) => ({
     fields: [booking.hostId],
     references: [user.id],
   }),
-
-  attendees: many(user),
+  enquiry: one(enquiry, {
+    fields: [booking.enquiryId],
+    references: [enquiry.id],
+  }),
 }));
 
 export const propertyRelations = relations(property, ({ one, many }) => ({
-  images: many(propertyImages),
-  documents: many(propertyDocuments),
-  booking: many(booking),
-
   organisation: one(organisation, {
     fields: [property.organisationId],
     references: [organisation.id],
   }),
+
+  images: many(propertyImages),
+  documents: many(propertyDocuments),
+  booking: many(booking),
+  enquiries: many(enquiry),
 }));

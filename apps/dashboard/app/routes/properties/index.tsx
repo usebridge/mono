@@ -26,11 +26,19 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { AlignJustify, Check, Download, Minus, Upload } from "lucide-react";
+import {
+  Activity,
+  AlignJustify,
+  Check,
+  Download,
+  Minus,
+  Upload,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import { DataTable } from "~/components/data-table/data-table";
 import { PropertySheetContents } from "~/components/properties/property-sheet-contents";
 import { useHotkeys } from "~/hooks/use-hotkeys";
+import { DATE_FORMAT } from "~/utils/consts";
 
 export const Route = createFileRoute("/properties/")({
   component: RouteComponent,
@@ -174,11 +182,37 @@ function RouteComponent() {
         },
       },
       {
+        accessorKey: "views",
+        header: "Views",
+        cell: ({ row }) => {
+          const rowValues = row.original;
+          return <p className="text-sm text-right">100</p>;
+        },
+      },
+      {
+        accessorKey: "enquiries",
+        header: "Enquiries",
+        cell: ({ row }) => {
+          const rowValues = row.original;
+          return <p className="text-sm text-right">3</p>;
+        },
+      },
+      {
         accessorKey: "dateAvailable",
         header: "Available from",
         cell: ({ getValue }) => (
           <p className="text-sm text-muted-foreground">
-            {format(getValue() as Date, "dd/MM/yyyy")}
+            {format(getValue() as Date, DATE_FORMAT.date)}
+          </p>
+        ),
+      },
+      {
+        // TODO: Update accessor
+        accessorKey: "dateAvailable",
+        header: "Date listed",
+        cell: ({ getValue }) => (
+          <p className="text-sm text-muted-foreground">
+            {format(getValue() as Date, DATE_FORMAT.date)}
           </p>
         ),
       },
@@ -207,6 +241,37 @@ function RouteComponent() {
       };
     });
   }
+
+  const statusFilters = useMemo(
+    () => [
+      {
+        id: "all",
+        label: "All",
+        value: "all",
+      },
+      {
+        id: "active",
+        label: "Active",
+        value: "active",
+      },
+      {
+        id: "sold",
+        label: "Sold",
+        value: "sold",
+      },
+      {
+        id: "agreed",
+        label: "Agreed",
+        value: "agreed",
+      },
+      {
+        id: "for-sale",
+        label: "For sale",
+        value: "for-sale",
+      },
+    ],
+    [],
+  );
 
   return (
     <>
@@ -237,8 +302,27 @@ function RouteComponent() {
           <Separator />
 
           <TabsContent value="table">
-            <div className="flex gap-2 justify-between items-center">
-              <Input placeholder="Search properties" className="mb-4 w-64" />
+            <div className="flex gap-x-2 justify-between items-center mb-4">
+              <div className="flex gap-x-2 items-center">
+                <Input placeholder="Search properties" className="w-64" />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline">
+                      <Activity /> Status
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {statusFilters.map((filter) => {
+                      return (
+                        <DropdownMenuItem key={filter.id}>
+                          <Check />
+                          <p>{filter.label}</p>
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               <div className="flex gap-x-2 items-center">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

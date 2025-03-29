@@ -15,6 +15,7 @@ import { Link } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { EllipsisVertical, MoveDiagonal2, X } from "lucide-react";
 import type { MOCK_PROPERTIES } from "~/app/routes/properties";
+import { DATE_FORMAT } from "~/utils/consts";
 
 type PropertySheetContentProps = {
   // TODO: Type this correctly
@@ -100,7 +101,7 @@ export function PropertySheetContents({
                 Listing Date:
               </p>
               <p className="capitalize">
-                {format(property.listingDate, "dd/MM/yyyy")}
+                {format(property.listingDate, DATE_FORMAT.date)}
               </p>
             </div>
             <div>
@@ -108,7 +109,7 @@ export function PropertySheetContents({
                 Available from:
               </p>
               <p className="capitalize">
-                {format(property.dateAvailable, "dd/MM/yyyy")}
+                {format(property.dateAvailable, DATE_FORMAT.date)}
               </p>
             </div>
             <div>

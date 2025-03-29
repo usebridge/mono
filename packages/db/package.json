@@ -4,14 +4,23 @@
   "type": "module",
   "module": "index.ts",
   "scripts": {
+    "dev:db-up": "docker compose --env-file ../../.env -f docker-compose.yml up",
+    "dev:db-down": "docker compose --env-file ../../.env -f docker-compose.yml down",
+    "dev:db-migrate": "bun with-env drizzle-kit migrate",
+    "dev:db-generate": "bun with-env drizzle-kit generate generate-zero-schema",
+    "dev:zero-cache": "bun with-env zero-cache-dev -p ../zero-schema/src/index.js",
+    "generate-zero-schema": "bun ./zero/build-zero-schema",
     "format": "biome format --write .",
     "lint": "biome lint",
-    "typecheck": "biome typecheck"
+    "typecheck": "biome typecheck",
+    "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "dotenv": "^16.4.5",
+    "@rocicorp/zero": "^0.17",
+    "dotenv": "^16.4.3",
+    "dotenv-cli": "^7.3.0",
     "drizzle-orm": "^0.36.4",
-    "postgres": "^3.4.5"
+    "drizzle-zero": "^0.5.4"
   },
   "devDependencies": {
     "@types/bun": "latest",
