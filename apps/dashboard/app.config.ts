@@ -1,4 +1,5 @@
 import { defineConfig } from "@tanstack/start/config";
+import { cloudflare } from "unenv";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
@@ -6,11 +7,15 @@ export default defineConfig({
     appDirectory: "./app",
   },
   server: {
-    preset: "vercel",
+    preset: "cloudflare",
+    unenv: cloudflare,
   },
   vite: {
     optimizeDeps: {
       force: true,
+    },
+    build: {
+      outDir: "./dist",
     },
     plugins: [
       // @ts-expect-error - unsure what this error is about

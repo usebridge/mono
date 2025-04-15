@@ -24,9 +24,7 @@ cat > ./packages/$package_name/package.json <<EOF
   "devDependencies": {
     "@types/bun": "latest",
     "dotenv-cli": "^7.3.0",
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.4"
+    "typescript": "^5.7.2"
   }
 }
 EOF

@@ -1,0 +1,20 @@
+name: sst-deploy
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_DEFAULT_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_DEFAULT_ACCOUNT_ID }}
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "*"
+  workflow_dispatch:
+jobs:
+  deploy:
+    name: deploy-dashboard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun deploy:production
+
