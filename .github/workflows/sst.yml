@@ -18,14 +18,12 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
   deploy:
-    name: deploy-dashboard
+    name: deploy
     runs-on: ubuntu-latest
     needs: [install_dependencies]
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: "curl -fsSL https://ion.sst.dev/install | bash"
-      - run: |
-          sst install
-          sst deploy --stage=production
+      - run: sst deploy --stage=production
 
