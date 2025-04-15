@@ -10,14 +10,16 @@ export default $config({
     };
   },
   async run() {
+    const stagePrefix = $app.stage === "production" ? "" : `${$app.stage}.`;
+
     const hono = new sst.cloudflare.Worker("Hono", {
-      domain: `${$app.stage}.api.hosolutions.co.uk`,
+      domain: `${stagePrefix}api.hosolutions.co.uk`,
       handler: "packages/api/index.ts",
       url: true,
     });
 
     const dashboard = new sst.cloudflare.StaticSite("Dashboard", {
-      domain: `${$app.stage}.app.usebridge.co.uk`,
+      domain: `${stagePrefix}app.usebridge.co.uk`,
       path: "apps/dashboard",
       build: {
         command: "bun build",
@@ -26,7 +28,7 @@ export default $config({
     });
 
     const website = new sst.cloudflare.StaticSite("Website", {
-      domain: `${$app.stage}.usebridge.co.uk`,
+      domain: `${stagePrefix}usebridge.co.uk`,
       path: "apps/website",
       build: {
         command: "bun build",
