@@ -3,7 +3,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuAction,
   SidebarMenuButton,
@@ -13,21 +12,13 @@ import {
   SidebarMenuSubItem,
 } from "@ho/ui";
 import { Link } from "@tanstack/react-router";
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import type { NavData } from "./navbar";
 
 export function NavMain({
   items,
 }: {
-  items: {
-    title: string;
-    url: string;
-    icon: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
+  items: NavData["navMain"];
 }) {
   return (
     <SidebarGroup>
@@ -37,8 +28,8 @@ export function NavMain({
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip={item.title}>
-                <Link href={item.url} preload="intent">
-                  <item.icon />
+                <Link to={item.url} preload="intent">
+                  {item.icon && <item.icon />}
                   <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
@@ -55,7 +46,7 @@ export function NavMain({
                       {item.items?.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton asChild>
-                            <Link href={subItem.url} preload="intent">
+                            <Link to={subItem.url} preload="intent">
                               <span>{subItem.title}</span>
                             </Link>
                           </SidebarMenuSubButton>

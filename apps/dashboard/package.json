@@ -2,26 +2,25 @@
   "name": "@ho/dashboard",
   "type": "module",
   "scripts": {
-    "dev": "bun with-env vinxi dev",
-    "build": "bun with-env vinxi build",
-    "start": "bun with-env vinxi start",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@date-fns/tz": "^1.2.0",
     "@ho/zero-schema": "workspace:*",
     "@rocicorp/zero": "^0.17",
-    "@tanstack/react-router": "^1.114.29",
+    "@tanstack/react-router": "^1.116.0",
+    "@tanstack/react-router-devtools": "^1.116.0",
     "@tanstack/react-table": "^8.20.6",
-    "@tanstack/start": "^1.114.29",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.462.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "unenv": "^1.10.0",
-    "vinxi": "^0.5.3"
+    "unenv": "^1.10.0"
   },
   "devDependencies": {
+    "@tanstack/router-plugin": "^1.116.1",
     "@types/bun": "latest",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

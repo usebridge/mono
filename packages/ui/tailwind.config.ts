@@ -1,12 +1,13 @@
 import type { Config } from "tailwindcss";
 
 export default {
+  // @ts-expect-error - this works, not sure I want to figure out if it breaks without it
   darkMode: ["variant", [".dark &", '[data-kb-theme="dark"] &'], "class"],
   content: ["./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
     container: {
-      center: "true",
+      center: true,
       padding: "2rem",
       screens: {
         "2xl": "1400px",

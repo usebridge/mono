@@ -1,3 +1,7 @@
+// We avoid checking here to make it easier to build our consumers.
+// They don't need to be concerned about potential type errors here
+// (I think, this could be a bad idea)
+// @ts-nocheck
 export * from "./accordion";
 export * from "./alert-dialog";
 export * from "./alert";

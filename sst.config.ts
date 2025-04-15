@@ -22,7 +22,7 @@ export default $config({
       domain: `${stagePrefix}app.usebridge.co.uk`,
       path: "apps/dashboard",
       build: {
-        command: "bun build",
+        command: "bun run build",
         output: "./dist",
       },
     });
@@ -31,7 +31,7 @@ export default $config({
       domain: `${stagePrefix}usebridge.co.uk`,
       path: "apps/website",
       build: {
-        command: "bun build",
+        command: "bun run build",
         output: "./dist",
       },
     });

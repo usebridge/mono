@@ -1,15 +1,7 @@
 import {
-  BadgeCheck,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Settings,
-} from "lucide-react";
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -17,12 +9,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  useToast,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
 } from "@ho/ui";
 import { Link } from "@tanstack/react-router";
+import {
+  BadgeCheck,
+  ChevronsUpDown,
+  CreditCard,
+  LogOut,
+  Settings,
+} from "lucide-react";
 
 export function NavUser({
   user,
@@ -34,7 +33,6 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
-  const { toast } = useToast();
 
   return (
     <SidebarMenu>
@@ -80,19 +78,19 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link href="/account">
+                <Link to="/settings/account">
                   <BadgeCheck />
                   Account
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/account/billing">
+                <Link to="/settings/billing">
                   <CreditCard />
                   Billing
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/account/settings">
+                <Link to="/settings">
                   <Settings />
                   Settings
                 </Link>

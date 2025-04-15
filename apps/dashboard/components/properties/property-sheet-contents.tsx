@@ -14,7 +14,7 @@ import {
 import { Link } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { EllipsisVertical, MoveDiagonal2, X } from "lucide-react";
-import type { MOCK_PROPERTIES } from "~/app/routes/properties";
+import type { MOCK_PROPERTIES } from "~/src/routes/properties";
 import { DATE_FORMAT } from "~/utils/consts";
 
 type PropertySheetContentProps = {

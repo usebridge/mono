@@ -1,14 +1,12 @@
 import { SidebarProvider } from "@ho/ui";
-import CSS from "@ho/ui/globals.css?url";
-import {
-  Outlet,
-  ScrollRestoration,
-  createRootRoute,
-} from "@tanstack/react-router";
-import { Meta, Scripts } from "@tanstack/start";
-import type { ReactNode } from "react";
+import "@ho/ui/globals.css";
+import { schema } from "@ho/zero-schema";
+import { Zero } from "@rocicorp/zero";
+import { ZeroProvider } from "@rocicorp/zero/react";
+import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { GlobalCmdInput } from "~/components/global-cmd";
-import { AppSidebar } from "../../components/navbar/navbar";
+import { AppSidebar } from "~/components/navbar/navbar";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -28,41 +26,31 @@ export const Route = createRootRoute({
         content: "Bridge the gap to automated viewings.",
       },
     ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: CSS,
-      },
-    ],
   }),
   component: RootComponent,
 });
 
 function RootComponent() {
-  return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
-  );
-}
+  const z = new Zero({
+    userID: "userID",
+    auth: () => "",
+    server: import.meta.env.VITE_PUBLIC_SERVER,
+    schema,
+    kvStore: "mem",
+  });
 
-function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-      </head>
-      <body className="font-inter">
+    <>
+      <ZeroProvider zero={z}>
         <SidebarProvider>
           <AppSidebar />
           <main className="p-4 bg-background flex-1">
             <GlobalCmdInput />
-            {children}
+            <Outlet />
           </main>
         </SidebarProvider>
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
+      </ZeroProvider>
+      <TanStackRouterDevtools />
+    </>
   );
 }

@@ -24,7 +24,7 @@ import { NavMain } from "./nav-main";
 import { NavSecondary } from "./nav-secondary";
 import { NavUser } from "./nav-user";
 
-type NavData = {
+export type NavData = {
   navMain: {
     title: string;
     url: LinkOptions["to"];
