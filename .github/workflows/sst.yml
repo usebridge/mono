@@ -27,5 +27,5 @@ jobs:
       - run: "curl -fsSL https://ion.sst.dev/install | bash"
       - run: |
           sst install
-          bun deploy:production
+          sst deploy --stage=production
 
