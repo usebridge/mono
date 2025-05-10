@@ -1,0 +1,1 @@
+ALTER TABLE "bridge_users" DROP COLUMN IF EXISTS "password_hash";

@@ -11,7 +11,8 @@
     "typecheck": "biome typecheck"
   },
   "dependencies": {
-    "hono": "^4.7.6"
+    "hono": "^4.7.6",
+    "sst": "3.13.10"
   },
   "devDependencies": {
     "@types/bun": "latest",

@@ -29,6 +29,8 @@ const timestampHelper = () => ({
 // TODO: Consider users that don't belong to an organisation and are just going to be viewing
 // properties and not managing them
 
+// TODO: Consider the scenario that a user wants to join multiple organisations from a CRM POV
+
 // TODO: Investigate whether we actually need some of the contents of this users table if we
 // use a separate auth management system (thinking new SST setup)
 
@@ -55,13 +57,16 @@ export const userPermissionEnum = pgEnum("user_permission", [
 // User Management
 export const user = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
+  // TODO: This needs to account for multi-tenancy and have a
+  // linking table rather than a foreign key?
   organisationId: uuid("organisation_id")
     .references(() => organisation.id)
     .notNull(),
+  // With open auth we will be using email as the unique identifier
+  // to get the user. This doesn't cover our multi-tenant use case.
+  // Need to think that one through...
+  email: text("email").unique().notNull().unique(),
 
-  email: text("email").unique().notNull(),
-  // FIX: This is probably one of the items to remove. Ideally we don't deal with auth
-  passwordHash: text("password_hash").notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   description: text("description"),

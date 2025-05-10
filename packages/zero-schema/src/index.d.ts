@@ -35,12 +35,7 @@ declare module "@ho/zero-schema" {
                 customType: string;
                 serverName: string;
               };
-          readonly passwordHash: {
-            optional: false;
-            type: "string";
-            customType: string;
-            serverName: string;
-          };
+          readonly passwordHash: never;
           readonly firstName: {
             optional: false;
             type: "string";
@@ -875,7 +870,6 @@ declare module "@ho/zero-schema" {
               | "createdAt"
               | "updatedAt"
               | "organisationId"
-              | "passwordHash"
               | "firstName"
               | "lastName"
               | "phoneNumber"
@@ -964,7 +958,6 @@ declare module "@ho/zero-schema" {
               | "createdAt"
               | "updatedAt"
               | "organisationId"
-              | "passwordHash"
               | "firstName"
               | "lastName"
               | "phoneNumber"
@@ -1296,7 +1289,6 @@ declare module "@ho/zero-schema" {
               | "createdAt"
               | "updatedAt"
               | "organisationId"
-              | "passwordHash"
               | "firstName"
               | "lastName"
               | "phoneNumber"

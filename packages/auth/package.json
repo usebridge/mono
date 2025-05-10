@@ -1,0 +1,26 @@
+{
+  "name": "@ho/auth",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "format": "biome format --write .",
+    "lint": "biome lint",
+    "typecheck": "biome typecheck"
+  },
+  "dependencies": {
+    "@ho/db": "workspace:*",
+    "better-auth": "^1.2.7",
+    "better-sqlite3": "^11.9.1",
+    "hono": "^4.7.7",
+    "kysely-d1": "^0.4.0",
+    "valibot": "^1.0.0",
+    "sst": "3.13.10"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/bun": "latest",
+    "dotenv-cli": "^7.3.0",
+    "typescript": "^5.7.2"
+  }
+}

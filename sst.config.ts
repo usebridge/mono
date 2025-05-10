@@ -12,13 +12,7 @@ export default $config({
   async run() {
     const stagePrefix = $app.stage === "production" ? "" : `${$app.stage}.`;
 
-    const hono = new sst.cloudflare.Worker("Hono", {
-      domain: `${stagePrefix}api.hosolutions.co.uk`,
-      handler: "packages/api/index.ts",
-      url: true,
-    });
-
-    const dashboard = new sst.cloudflare.StaticSite("Dashboard", {
+    const app = new sst.cloudflare.StaticSite("BridgeApp", {
       domain: `${stagePrefix}app.usebridge.co.uk`,
       path: "apps/dashboard",
       build: {
@@ -36,10 +30,28 @@ export default $config({
       },
     });
 
+    const appDatabase = new sst.cloudflare.D1("AppDatabase");
+    const authDatabase = new sst.cloudflare.D1("AuthDatabase");
+
+    const authApi = new sst.cloudflare.Worker("AuthApi", {
+      domain: `${stagePrefix}auth.hosolutions.co.uk`,
+      handler: "packages/auth/index.ts",
+      url: true,
+      link: [authDatabase, appDatabase],
+    });
+
+    const appApi = new sst.cloudflare.Worker("AppApi", {
+      domain: `${stagePrefix}api.hosolutions.co.uk`,
+      handler: "packages/api/index.ts",
+      url: true,
+      link: [authDatabase, appDatabase],
+    });
+
     return {
-      dashboard: dashboard.url,
+      api: appApi.url,
+      auth: authApi.url,
+      app: app.url,
       website: website.url,
-      api: hono.url,
     };
   },
 });

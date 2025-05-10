@@ -74,8 +74,7 @@ var userPermissionEnum = pgEnum("user_permission", [
 var user = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
   organisationId: uuid("organisation_id").references(() => organisation.id).notNull(),
-  email: text("email").unique().notNull(),
-  passwordHash: text("password_hash").notNull(),
+  email: text("email").unique().notNull().unique(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   description: text("description"),
